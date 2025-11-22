@@ -8,11 +8,12 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="384dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="10dp">
@@ -46,6 +47,18 @@
                     android:text="Edad"
                     android:textSize="16sp" />
             </LinearLayout>
+
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btn_eliminar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#FF0000"
+            android:padding="5dp"
+            app:srcCompat="@drawable/ic_delete" />
+
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>

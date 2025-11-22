@@ -1,9 +1,13 @@
 package com.example.acm4ap_arabela_frankow.Adapter;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,17 +16,48 @@ import com.example.acm4ap_arabela_frankow.Model.Pet;
 import com.example.acm4ap_arabela_frankow.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class PetAdapter extends FirestoreRecyclerAdapter<Pet, PetAdapter.ViewHolder> {
-    public PetAdapter(@NonNull FirestoreRecyclerOptions<Pet> options) {
+    private FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
+    Activity activity;
+
+    public PetAdapter(@NonNull FirestoreRecyclerOptions<Pet> options, Activity activity) {
         super(options);
+        this.activity = activity;
     }
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder viewHolder, int i, @NonNull Pet pet) {
+        DocumentSnapshot documentSnapshot = getSnapshots().getSnapshot(viewHolder.getAbsoluteAdapterPosition());
+        final String id = documentSnapshot.getId();
+
         viewHolder.name.setText(pet.getName());
         viewHolder.age.setText(pet.getAge());
         viewHolder.color.setText(pet.getColor());
+        viewHolder.btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deletePet(id);
+            }
+        });
+    }
+
+    private void deletePet(String id) {
+        mFirestore.collection("pet").document(id).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(activity, "Eliminado exitosamente", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(activity, "Error al eliminar", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @NonNull
@@ -34,11 +69,13 @@ public class PetAdapter extends FirestoreRecyclerAdapter<Pet, PetAdapter.ViewHol
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView name, age, color;
+        ImageView btn_delete;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.nombreView);
             age = itemView.findViewById(R.id.colorView);
             color = itemView.findViewById(R.id.edadView);
+            btn_delete = itemView.findViewById(R.id.btn_eliminar);
         }
     }
 }
