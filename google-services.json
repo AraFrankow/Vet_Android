@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "604046621812",
+    "project_id": "veterinaria-e0853",
+    "storage_bucket": "veterinaria-e0853.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:604046621812:android:330ef92f5ebce41516a521",
+        "android_client_info": {
+          "package_name": "com.example.acm4ap_arabela_frankow"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd8VlEEfRtZ9bSfAvz4KqgNBgDejapppg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
