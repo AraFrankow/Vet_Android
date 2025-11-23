@@ -8,12 +8,12 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="87dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="384dp"
+            android:layout_width="323dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="10dp">
@@ -28,7 +28,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
@@ -51,10 +51,21 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/btn_editar"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="#2525FA"
+            android:padding="5dp"
+            app:srcCompat="@drawable/ic_edit" />
+
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="wrap_content" />
+
+        <ImageView
             android:id="@+id/btn_eliminar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:background="#FF0000"
             android:padding="5dp"
             app:srcCompat="@drawable/ic_delete" />

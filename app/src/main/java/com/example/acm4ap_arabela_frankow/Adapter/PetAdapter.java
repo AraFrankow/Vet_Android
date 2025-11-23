@@ -1,6 +1,8 @@
 package com.example.acm4ap_arabela_frankow.Adapter;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.acm4ap_arabela_frankow.CrearMascotaFragment;
+import com.example.acm4ap_arabela_frankow.MascotaActivity;
 import com.example.acm4ap_arabela_frankow.Model.Pet;
 import com.example.acm4ap_arabela_frankow.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -24,10 +29,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class PetAdapter extends FirestoreRecyclerAdapter<Pet, PetAdapter.ViewHolder> {
     private FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
     Activity activity;
+    FragmentManager fm;
 
-    public PetAdapter(@NonNull FirestoreRecyclerOptions<Pet> options, Activity activity) {
+    public PetAdapter(@NonNull FirestoreRecyclerOptions<Pet> options, Activity activity, FragmentManager fm) {
         super(options);
         this.activity = activity;
+        this.fm = fm;
     }
 
     @Override
@@ -42,6 +49,18 @@ public class PetAdapter extends FirestoreRecyclerAdapter<Pet, PetAdapter.ViewHol
             @Override
             public void onClick(View v) {
                 deletePet(id);
+            }
+        });
+        viewHolder.btn_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(activity, MascotaActivity.class);
+                i.putExtra("id_pet", id);
+                CrearMascotaFragment crearMascotaFragment = new CrearMascotaFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("id_pet", id);
+                crearMascotaFragment.setArguments(bundle);
+                crearMascotaFragment.show(fm, "Navegar a Fragment");
             }
         });
     }
@@ -69,13 +88,14 @@ public class PetAdapter extends FirestoreRecyclerAdapter<Pet, PetAdapter.ViewHol
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView name, age, color;
-        ImageView btn_delete;
+        ImageView btn_delete, btn_edit;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.nombreView);
             age = itemView.findViewById(R.id.colorView);
             color = itemView.findViewById(R.id.edadView);
             btn_delete = itemView.findViewById(R.id.btn_eliminar);
+            btn_edit = itemView.findViewById(R.id.btn_editar);
         }
     }
 }

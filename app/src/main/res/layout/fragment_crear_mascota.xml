@@ -17,7 +17,7 @@
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Agregar Mascota"
+            android:text="Editar Mascota"
             android:textAlignment="center"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -58,7 +58,7 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Agregar" />
+            android:text="Actualizar" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

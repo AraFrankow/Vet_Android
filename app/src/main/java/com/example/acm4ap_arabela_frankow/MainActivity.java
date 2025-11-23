@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         Query query = mFirestore.collection("pet").orderBy("name", Query.Direction.ASCENDING);
         FirestoreRecyclerOptions<Pet> FirestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Pet>().setQuery(query, Pet.class).build();
 
-        mAdapter = new PetAdapter(FirestoreRecyclerOptions, this);
+        mAdapter = new PetAdapter(FirestoreRecyclerOptions, this, getSupportFragmentManager());
         mAdapter.notifyDataSetChanged();
         mRecycler.setAdapter(mAdapter);
 
