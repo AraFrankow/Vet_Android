@@ -10,21 +10,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <EditText
-            android:id="@+id/nombre"
-            android:layout_width="344dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="32dp"
-            android:hint="Nombre" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <EditText
             android:id="@+id/correo"
@@ -33,25 +26,49 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="32dp"
-            android:hint="Email" />
+            android:hint="Correo"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/contrasena"
             android:layout_width="344dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"            android:layout_marginEnd="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
             android:hint="Contraseña"
             android:inputType="textPassword" />
 
         <Button
-            android:id="@+id/btn_registro"
+            android:id="@+id/btn_ingresar"
             android:layout_width="344dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
-            android:text="Registrarse" />
+            android:text="Ingresar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:layout_weight="1"
+                android:text="No tenes una cuenta?" />
+
+            <Button
+                android:id="@+id/btn_regis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="35dp"
+                android:layout_weight="1"
+                android:text="Registrate" />
+        </LinearLayout>
 
     </LinearLayout>
 
