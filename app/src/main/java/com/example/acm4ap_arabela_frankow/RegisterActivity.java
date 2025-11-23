@@ -2,6 +2,7 @@ package com.example.acm4ap_arabela_frankow;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,7 +33,10 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        this.setTitle("Registro");
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Registro");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mFirestore = FirebaseFirestore.getInstance();
@@ -50,7 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String emailUser = email.getText().toString().trim();
                 String passUser = password.getText().toString().trim();
 
-                if (nameUser.isEmpty() && emailUser.isEmpty() && passUser.isEmpty()){
+                if (nameUser.isEmpty() || emailUser.isEmpty() || passUser.isEmpty()){
                     Toast.makeText(RegisterActivity.this, "Complete los datos", Toast.LENGTH_SHORT).show();
                 }else{
                     registerUser(nameUser, emailUser, passUser);

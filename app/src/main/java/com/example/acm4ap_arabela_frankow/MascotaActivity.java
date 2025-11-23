@@ -33,6 +33,7 @@ public class MascotaActivity extends AppCompatActivity {
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Agregar Mascota");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mfirestore = FirebaseFirestore.getInstance();
 

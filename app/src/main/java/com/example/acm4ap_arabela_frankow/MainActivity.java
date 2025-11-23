@@ -22,7 +22,7 @@ import com.google.firebase.firestore.Query;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btn_add_fragment;
+    Button btn_add_pet_activity;
     RecyclerView mRecycler;
     PetAdapter mAdapter;
     FirebaseFirestore mFirestore;
@@ -34,22 +34,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
         mFirestore = FirebaseFirestore.getInstance();
         mRecycler = findViewById(R.id.recyclerViewSingle);
         mRecycler.setLayoutManager(new LinearLayoutManager(this));
-        Query query = mFirestore.collection("pet").orderBy("name", Query.Direction.ASCENDING);
+        mRecycler.setHasFixedSize(true);
+        mRecycler.setItemAnimator(null);
+
+        Query query = mFirestore.collection("pet");
         FirestoreRecyclerOptions<Pet> FirestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Pet>().setQuery(query, Pet.class).build();
 
         mAdapter = new PetAdapter(FirestoreRecyclerOptions, this, getSupportFragmentManager());
-        mAdapter.notifyDataSetChanged();
         mRecycler.setAdapter(mAdapter);
 
-        btn_add_fragment = findViewById(R.id.btn_add_fragment);
-        btn_add_fragment.setOnClickListener(new View.OnClickListener() {
+        btn_add_pet_activity = findViewById(R.id.btn_add_pet_activity);
+        btn_add_pet_activity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CrearMascotaFragment fm = new CrearMascotaFragment();
-                fm.show(getSupportFragmentManager(), "Navegar a Fragment");
+                startActivity(new Intent(MainActivity.this, MascotaActivity.class));
             }
         });
 

@@ -92,8 +92,8 @@ public class PetAdapter extends FirestoreRecyclerAdapter<Pet, PetAdapter.ViewHol
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.nombreView);
-            age = itemView.findViewById(R.id.colorView);
-            color = itemView.findViewById(R.id.edadView);
+            age = itemView.findViewById(R.id.edadView);
+            color = itemView.findViewById(R.id.colorView);
             btn_delete = itemView.findViewById(R.id.btn_eliminar);
             btn_edit = itemView.findViewById(R.id.btn_editar);
         }
