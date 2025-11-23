@@ -22,7 +22,7 @@ import com.google.firebase.firestore.Query;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btn_add, btn_add_fragment;
+    Button btn_add_fragment;
     RecyclerView mRecycler;
     PetAdapter mAdapter;
     FirebaseFirestore mFirestore;
@@ -44,15 +44,7 @@ public class MainActivity extends AppCompatActivity {
         mAdapter.notifyDataSetChanged();
         mRecycler.setAdapter(mAdapter);
 
-
-        btn_add = findViewById(R.id.btn_add);
         btn_add_fragment = findViewById(R.id.btn_add_fragment);
-        btn_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, MascotaActivity.class));
-            }
-        });
         btn_add_fragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -12,13 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ACM4AP_Arabela_Frankow">
         <activity
-            android:name=".MascotaActivity"
-            android:exported="false" />
-        <activity
-            android:name=".AuthActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MascotaActivity"
+            android:exported="true" />
+        <activity
+            android:name=".RegisterActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

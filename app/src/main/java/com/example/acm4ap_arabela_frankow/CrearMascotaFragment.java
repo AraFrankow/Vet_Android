@@ -5,8 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.widget.Toolbar;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +47,7 @@ public class CrearMascotaFragment extends DialogFragment{
         name = v.findViewById(R.id.nombre);
         age = v.findViewById(R.id.edad);
         color = v.findViewById(R.id.color);
-        btn_agregar = v.findViewById(R.id.btn_agregar);
+        btn_agregar = v.findViewById(R.id.btn_registro);
 
         if(id_pet==null || id_pet.isEmpty()){
             btn_agregar.setOnClickListener(new View.OnClickListener() {
