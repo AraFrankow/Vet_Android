@@ -1,13 +1,13 @@
 package com.example.acm4ap_arabela_frankow.Model;
 
 public class Pet {
-    String name, age, color;
+    String name, age, genre;
     public Pet(){}
 
-    public Pet(String name, String age, String color){
+    public Pet(String name, String age, String genre){
         this.name = name;
         this.age = age;
-        this.color = color;
+        this.genre = genre;
     }
 
     public String getAge() {
@@ -26,11 +26,11 @@ public class Pet {
         this.name = name;
     }
 
-    public String getColor() {
-        return color;
+    public String getGenre() {
+        return genre;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 }

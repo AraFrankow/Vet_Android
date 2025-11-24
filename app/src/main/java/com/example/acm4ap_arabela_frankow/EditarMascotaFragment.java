@@ -22,11 +22,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CrearMascotaFragment extends DialogFragment{
+public class EditarMascotaFragment extends DialogFragment{
 
     String id_pet;
     Button btn_agregar;
-    EditText name, age, color;
+    EditText name, age, genre;
     private FirebaseFirestore mfirestore;
 
     @Override
@@ -41,12 +41,12 @@ public class CrearMascotaFragment extends DialogFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_crear_mascota, container, false);
+        View v = inflater.inflate(R.layout.fragment_editar_mascota, container, false);
         mfirestore = FirebaseFirestore.getInstance();
 
         name = v.findViewById(R.id.nombre);
         age = v.findViewById(R.id.edad);
-        color = v.findViewById(R.id.color);
+        genre = v.findViewById(R.id.genero);
         btn_agregar = v.findViewById(R.id.btn_registro);
 
         if(id_pet==null || id_pet.isEmpty()){
@@ -55,11 +55,11 @@ public class CrearMascotaFragment extends DialogFragment{
                 public void onClick(View v) {
                     String namepet = name.getText().toString().trim();
                     String agepet = age.getText().toString().trim();
-                    String colorpet = color.getText().toString().trim();
-                    if (namepet.isEmpty() || agepet.isEmpty() || colorpet.isEmpty()){
+                    String genrepet = genre.getText().toString().trim();
+                    if (namepet.isEmpty() || agepet.isEmpty() || genrepet.isEmpty()){
                         Toast.makeText(getContext(), "Ingresar los datos", Toast.LENGTH_SHORT).show();
                     }else{
-                        postPet(namepet, agepet, colorpet);
+                        postPet(namepet, agepet, genrepet);
                     }
                 }
             });
@@ -71,12 +71,12 @@ public class CrearMascotaFragment extends DialogFragment{
                 public void onClick(View v) {
                     String namepet = name.getText().toString().trim();
                     String agepet = age.getText().toString().trim();
-                    String colorpet = color.getText().toString().trim();
+                    String genrepet = genre.getText().toString().trim();
 
-                    if (namepet.isEmpty() && agepet.isEmpty() && colorpet.isEmpty()){
+                    if (namepet.isEmpty() && agepet.isEmpty() && genrepet.isEmpty()){
                         Toast.makeText(getContext(), "Ingresar los datos", Toast.LENGTH_SHORT).show();
                     }else{
-                        updatePet(namepet, agepet, colorpet);
+                        updatePet(namepet, agepet, genrepet);
                     }
 
                 }
@@ -89,11 +89,11 @@ public class CrearMascotaFragment extends DialogFragment{
         return v;
     }
 
-    private void updatePet(String namepet, String agepet, String colorpet) {
+    private void updatePet(String namepet, String agepet, String genrepet) {
         Map<String, Object> map = new HashMap<>();
         map.put("name", namepet);
         map.put("age", agepet);
-        map.put("color", colorpet);
+        map.put("genre", genrepet);
 
         mfirestore.collection("pet").document(id_pet).update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -109,11 +109,11 @@ public class CrearMascotaFragment extends DialogFragment{
         });
     }
 
-    private void postPet(String namepet, String agepet, String colorpet) {
+    private void postPet(String namepet, String agepet, String genrepet) {
         Map<String, Object> map = new HashMap<>();
         map.put("name", namepet);
         map.put("age", agepet);
-        map.put("color", colorpet);
+        map.put("genre", genrepet);
 
         mfirestore.collection("pet").add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
@@ -135,10 +135,10 @@ public class CrearMascotaFragment extends DialogFragment{
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 String namepet = documentSnapshot.getString("name");
                 String agepet = documentSnapshot.getString("age");
-                String colorpet = documentSnapshot.getString("color");
+                String genrepet = documentSnapshot.getString("genre");
                 name.setText(namepet);
                 age.setText(agepet);
-                color.setText(colorpet);
+                genre.setText(genrepet);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

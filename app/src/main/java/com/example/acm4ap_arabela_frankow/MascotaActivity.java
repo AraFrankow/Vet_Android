@@ -21,7 +21,7 @@ import java.util.Map;
 public class MascotaActivity extends AppCompatActivity {
 
     Button btn_agregar;
-    EditText name, age, color;
+    EditText name, age, genre;
     private FirebaseFirestore mfirestore;
 
     @Override
@@ -39,7 +39,7 @@ public class MascotaActivity extends AppCompatActivity {
 
         name = findViewById(R.id.nombre);
         age = findViewById(R.id.edad);
-        color = findViewById(R.id.color);
+        genre = findViewById(R.id.genero);
         btn_agregar = findViewById(R.id.btn_registro);
 
         btn_agregar.setOnClickListener(new View.OnClickListener() {
@@ -47,12 +47,12 @@ public class MascotaActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String namepet = name.getText().toString().trim();
                 String agepet = age.getText().toString().trim();
-                String colorpet = color.getText().toString().trim();
+                String genrepet = genre.getText().toString().trim();
 
-                if (namepet.isEmpty() || agepet.isEmpty() || colorpet.isEmpty()){
+                if (namepet.isEmpty() || agepet.isEmpty() || genrepet.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Ingresar los datos", Toast.LENGTH_SHORT).show();
                 }else{
-                    postPet(namepet, agepet, colorpet);
+                    postPet(namepet, agepet, genrepet);
                 }
 
             }
@@ -60,11 +60,11 @@ public class MascotaActivity extends AppCompatActivity {
         });
     }
 
-    private void postPet(String namepet, String agepet, String colorpet) {
+    private void postPet(String namepet, String agepet, String genrepet) {
         Map<String, Object> map = new HashMap<>();
         map.put("name", namepet);
         map.put("age", agepet);
-        map.put("color", colorpet);
+        map.put("genre", genrepet);
 
         mfirestore.collection("pet").add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
