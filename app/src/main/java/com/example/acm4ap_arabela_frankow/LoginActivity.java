@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
                 String emailUser = email.getText().toString().trim();
                 String passUser = password.getText().toString().trim();
 
-                if (emailUser.isEmpty() && passUser.isEmpty()){
+                if (emailUser.isEmpty() || passUser.isEmpty()){
                     Toast.makeText(LoginActivity.this, "Ingresar los datos", Toast.LENGTH_SHORT).show();
                 }else{
                     loginUser(emailUser, passUser);
