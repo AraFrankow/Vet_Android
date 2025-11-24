@@ -1,7 +1,6 @@
 package com.example.acm4ap_arabela_frankow;
 
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;

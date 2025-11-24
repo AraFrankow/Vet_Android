@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("Mascotas");
+            actionBar.setTitle("Bienvenido");
         }
 
         mFirestore = FirebaseFirestore.getInstance();
