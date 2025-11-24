@@ -26,7 +26,7 @@ public class EditarMascotaFragment extends DialogFragment{
 
     String id_pet;
     Button btn_agregar;
-    EditText name, age, genre;
+    EditText name, age, weight, genre, nameVacuna, dateVacuna, dateAntiparasitario, dateAntipulgas;
     private FirebaseFirestore mfirestore;
 
     @Override
@@ -47,6 +47,11 @@ public class EditarMascotaFragment extends DialogFragment{
         name = v.findViewById(R.id.nombre);
         age = v.findViewById(R.id.edad);
         genre = v.findViewById(R.id.genero);
+        weight = v.findViewById(R.id.peso);
+        nameVacuna = v.findViewById(R.id.nombreVacuna);
+        dateVacuna = v.findViewById(R.id.fechaVacuna);
+        dateAntiparasitario = v.findViewById(R.id.fechaAntiparasitario);
+        dateAntipulgas = v.findViewById(R.id.fechaAntipulgas);
         btn_agregar = v.findViewById(R.id.btn_registro);
 
         if(id_pet==null || id_pet.isEmpty()){
@@ -56,10 +61,16 @@ public class EditarMascotaFragment extends DialogFragment{
                     String namepet = name.getText().toString().trim();
                     String agepet = age.getText().toString().trim();
                     String genrepet = genre.getText().toString().trim();
-                    if (namepet.isEmpty() || agepet.isEmpty() || genrepet.isEmpty()){
+                    String weightpet = weight.getText().toString().trim();
+                    String nameVacunapet = nameVacuna.getText().toString().trim();
+                    String dateVacunapet = dateVacuna.getText().toString().trim();
+                    String dateAntiparasitariopet = dateAntiparasitario.getText().toString().trim();
+                    String dateAntipulgaspet = dateAntipulgas.getText().toString().trim();
+
+                    if (namepet.isEmpty() || agepet.isEmpty() || genrepet.isEmpty() || weightpet.isEmpty() || nameVacunapet.isEmpty() || dateVacunapet.isEmpty() || dateAntiparasitariopet.isEmpty() || dateAntipulgaspet.isEmpty()){
                         Toast.makeText(getContext(), "Ingresar los datos", Toast.LENGTH_SHORT).show();
                     }else{
-                        postPet(namepet, agepet, genrepet);
+                        postPet(namepet, agepet, genrepet, weightpet, nameVacunapet, dateVacunapet, dateAntiparasitariopet, dateAntipulgaspet);
                     }
                 }
             });
@@ -72,11 +83,16 @@ public class EditarMascotaFragment extends DialogFragment{
                     String namepet = name.getText().toString().trim();
                     String agepet = age.getText().toString().trim();
                     String genrepet = genre.getText().toString().trim();
+                    String weightpet = weight.getText().toString().trim();
+                    String nameVacunapet = nameVacuna.getText().toString().trim();
+                    String dateVacunapet = dateVacuna.getText().toString().trim();
+                    String dateAntiparasitariopet = dateAntiparasitario.getText().toString().trim();
+                    String dateAntipulgaspet = dateAntipulgas.getText().toString().trim();
 
-                    if (namepet.isEmpty() && agepet.isEmpty() && genrepet.isEmpty()){
+                    if (namepet.isEmpty() || agepet.isEmpty() || genrepet.isEmpty() || weightpet.isEmpty() || nameVacunapet.isEmpty() || dateVacunapet.isEmpty() || dateAntiparasitariopet.isEmpty() || dateAntipulgaspet.isEmpty()){
                         Toast.makeText(getContext(), "Ingresar los datos", Toast.LENGTH_SHORT).show();
                     }else{
-                        updatePet(namepet, agepet, genrepet);
+                        updatePet(namepet, agepet, genrepet, weightpet, nameVacunapet, dateVacunapet, dateAntiparasitariopet, dateAntipulgaspet);
                     }
 
                 }
@@ -89,11 +105,16 @@ public class EditarMascotaFragment extends DialogFragment{
         return v;
     }
 
-    private void updatePet(String namepet, String agepet, String genrepet) {
+    private void updatePet(String namepet, String agepet, String genrepet, String weightpet, String nameVacunapet, String dateVacunapet, String dateAntiparasitariopet, String dateAntipulgaspet) {
         Map<String, Object> map = new HashMap<>();
         map.put("name", namepet);
         map.put("age", agepet);
         map.put("genre", genrepet);
+        map.put("weight", weightpet);
+        map.put("nameVacuna", nameVacunapet);
+        map.put("dateVacuna", dateVacunapet);
+        map.put("dateAntiparasitario", dateAntiparasitariopet);
+        map.put("dateAntipulgas", dateAntipulgaspet);
 
         mfirestore.collection("pet").document(id_pet).update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -109,11 +130,16 @@ public class EditarMascotaFragment extends DialogFragment{
         });
     }
 
-    private void postPet(String namepet, String agepet, String genrepet) {
+    private void postPet(String namepet, String agepet, String genrepet, String weightpet, String nameVacunapet, String dateVacunapet, String dateAntiparasitariopet, String dateAntipulgaspet) {
         Map<String, Object> map = new HashMap<>();
         map.put("name", namepet);
         map.put("age", agepet);
         map.put("genre", genrepet);
+        map.put("weight", weightpet);
+        map.put("nameVacuna", nameVacunapet);
+        map.put("dateVacuna", dateVacunapet);
+        map.put("dateAntiparasitario", dateAntiparasitariopet);
+        map.put("dateAntipulgas", dateAntipulgaspet);
 
         mfirestore.collection("pet").add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
@@ -136,9 +162,19 @@ public class EditarMascotaFragment extends DialogFragment{
                 String namepet = documentSnapshot.getString("name");
                 String agepet = documentSnapshot.getString("age");
                 String genrepet = documentSnapshot.getString("genre");
+                String weightpet = documentSnapshot.getString("weight");
+                String nameVacunapet = documentSnapshot.getString("nameVacuna");
+                String dateVacunapet = documentSnapshot.getString("dateVacuna");
+                String dateAntiparasitariopet = documentSnapshot.getString("dateAntiparasitario");
+                String dateAntipulgaspet = documentSnapshot.getString("dateAntipulgas");
                 name.setText(namepet);
                 age.setText(agepet);
                 genre.setText(genrepet);
+                weight.setText(weightpet);
+                nameVacuna.setText(nameVacunapet);
+                dateVacuna.setText(dateVacunapet);
+                dateAntiparasitario.setText(dateAntiparasitariopet);
+                dateAntipulgas.setText(dateAntipulgaspet);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

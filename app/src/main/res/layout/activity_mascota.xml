@@ -20,6 +20,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="32dp"
+            android:inputType="text"
             android:hint="Nombre" />
 
         <EditText
@@ -29,7 +30,18 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="32dp"
-            android:hint="Edad" />
+            android:inputType="number"
+            android:hint="Edad"/>
+
+        <EditText
+            android:id="@+id/peso"
+            android:layout_width="344dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:inputType="number"
+            android:hint="Peso"/>
 
         <EditText
             android:id="@+id/genero"
@@ -38,7 +50,48 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="32dp"
+            android:inputType="text"
             android:hint="Genero" />
+
+        <EditText
+            android:id="@+id/nombreVacuna"
+            android:layout_width="344dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:inputType="text"
+            android:hint="Nombre de la ultima vacuna dada" />
+
+        <EditText
+            android:id="@+id/fechaVacuna"
+            android:layout_width="344dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:hint="Fecha de la ultima vacuna dada"
+            android:inputType="date" />
+
+        <EditText
+            android:id="@+id/fechaAntiparasitario"
+            android:layout_width="344dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:hint="Ultima vez que se le dio el antiparasitario"
+            android:inputType="date" />
+
+        <EditText
+            android:id="@+id/fechaAntipulgas"
+            android:layout_width="344dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:hint="Ultima vez que se le dio el antipulgas"
+            android:inputType="date" />
 
         <Button
             android:id="@+id/btn_registro"
