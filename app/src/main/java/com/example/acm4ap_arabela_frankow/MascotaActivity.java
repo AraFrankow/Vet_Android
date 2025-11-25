@@ -21,7 +21,7 @@ import java.util.Map;
 public class MascotaActivity extends AppCompatActivity {
 
     Button btn_agregar;
-    EditText name, age, weight, genre, nameVacuna, dateVacuna, dateAntiparasitario, dateAntipulgas;
+    EditText name, tipoMascota, age, weight, genre, nameVacuna, dateVacuna, dateAntiparasitario, dateAntipulgas;
     private FirebaseFirestore mfirestore;
 
     @Override
@@ -38,6 +38,7 @@ public class MascotaActivity extends AppCompatActivity {
         mfirestore = FirebaseFirestore.getInstance();
 
         name = findViewById(R.id.nombre);
+        tipoMascota = findViewById(R.id.tipoMascota);
         age = findViewById(R.id.edad);
         genre = findViewById(R.id.genero);
         weight = findViewById(R.id.peso);
@@ -51,6 +52,7 @@ public class MascotaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String namepet = name.getText().toString().trim();
+                String tipoMascotapet = tipoMascota.getText().toString().trim();
                 String agepet = age.getText().toString().trim();
                 String genrepet = genre.getText().toString().trim();
                 String weightpet = weight.getText().toString().trim();
@@ -59,10 +61,10 @@ public class MascotaActivity extends AppCompatActivity {
                 String dateAntiparasitariopet = dateAntiparasitario.getText().toString().trim();
                 String dateAntipulgaspet = dateAntipulgas.getText().toString().trim();
 
-                if (namepet.isEmpty() || agepet.isEmpty() || genrepet.isEmpty() || weightpet.isEmpty() || nameVacunapet.isEmpty() || dateVacunapet.isEmpty() || dateAntiparasitariopet.isEmpty() || dateAntipulgaspet.isEmpty()){
+                if (namepet.isEmpty() || tipoMascotapet.isEmpty() || agepet.isEmpty() || genrepet.isEmpty() || weightpet.isEmpty() || nameVacunapet.isEmpty() || dateVacunapet.isEmpty() || dateAntiparasitariopet.isEmpty() || dateAntipulgaspet.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Ingresar los datos", Toast.LENGTH_SHORT).show();
                 }else{
-                    postPet(namepet, agepet, genrepet, weightpet, nameVacunapet, dateVacunapet, dateAntiparasitariopet, dateAntipulgaspet);
+                    postPet(namepet, tipoMascotapet, agepet, genrepet, weightpet, nameVacunapet, dateVacunapet, dateAntiparasitariopet, dateAntipulgaspet);
                 }
 
             }
@@ -70,9 +72,10 @@ public class MascotaActivity extends AppCompatActivity {
         });
     }
 
-    private void postPet(String namepet, String agepet, String genrepet, String weightpet, String nameVacunapet, String dateVacunapet, String dateAntiparasitariopet, String dateAntipulgaspet) {
+    private void postPet(String namepet, String tipoMascotapet, String agepet, String genrepet, String weightpet, String nameVacunapet, String dateVacunapet, String dateAntiparasitariopet, String dateAntipulgaspet) {
         Map<String, Object> map = new HashMap<>();
         map.put("name", namepet);
+        map.put("tipoMascota", tipoMascotapet);
         map.put("age", agepet);
         map.put("genre", genrepet);
         map.put("weight", weightpet);

@@ -32,11 +32,11 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/generoView"
+                    android:id="@+id/tipoMascotaView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Genero"
+                    android:text="Tipo de Mascota"
                     android:textSize="16sp" />
 
                 <TextView

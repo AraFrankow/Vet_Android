@@ -42,8 +42,8 @@ public class PetAdapter extends FirestoreRecyclerAdapter<Pet, PetAdapter.ViewHol
         final String id = documentSnapshot.getId();
 
         viewHolder.name.setText(pet.getName());
+        viewHolder.tipoMascota.setText(pet.getTipoMascota());
         viewHolder.age.setText(pet.getAge());
-        viewHolder.genre.setText(pet.getGenre());
         viewHolder.btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,13 +86,13 @@ public class PetAdapter extends FirestoreRecyclerAdapter<Pet, PetAdapter.ViewHol
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView name, age, genre;
+        TextView name, tipoMascota, age;
         ImageView btn_delete, btn_edit;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.nombreView);
+            tipoMascota = itemView.findViewById(R.id.tipoMascotaView);
             age = itemView.findViewById(R.id.edadView);
-            genre = itemView.findViewById(R.id.generoView);
             btn_delete = itemView.findViewById(R.id.btn_eliminar);
             btn_edit = itemView.findViewById(R.id.btn_editar);
         }

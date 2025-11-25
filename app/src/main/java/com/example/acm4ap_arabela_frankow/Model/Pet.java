@@ -1,12 +1,14 @@
 package com.example.acm4ap_arabela_frankow.Model;
 
 public class Pet {
-    String name, age, weight, genre, nameVacuna, dateVacuna, dateAntiparasitario, dateAntipulgas;
+    String name, tipoMascota, age, weight, genre, nameVacuna, dateVacuna, dateAntiparasitario, dateAntipulgas;
     public Pet(){}
 
-    public Pet(String name, String age, String genre, String nameVacuna, String dateVacuna, String dateAntiparasitario, String dateAntipulgas){
+    public Pet(String name, String tipoMascota, String age, String weight, String genre, String nameVacuna, String dateVacuna, String dateAntiparasitario, String dateAntipulgas){
         this.name = name;
+        this.tipoMascota = tipoMascota;
         this.age = age;
+        this.weight = weight;
         this.genre = genre;
         this.nameVacuna = nameVacuna;
         this.dateVacuna = dateVacuna;
@@ -32,6 +34,18 @@ public class Pet {
 
     public String getGenre() {
         return genre;
+    }
+    public String getTipoMascota() {
+        return tipoMascota;
+    }
+    public void setTipoMascota(String tipoMascota) {
+        this.tipoMascota = tipoMascota;
+    }
+    public String getWeight() {
+        return weight;
+    }
+    public void setWeight(String weight) {
+        this.weight = weight;
     }
 
     public void setGenre(String genre) {
