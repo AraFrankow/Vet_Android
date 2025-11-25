@@ -15,7 +15,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class MascotaActivity extends AppCompatActivity {
@@ -63,7 +67,9 @@ public class MascotaActivity extends AppCompatActivity {
 
                 if (namepet.isEmpty() || tipoMascotapet.isEmpty() || agepet.isEmpty() || genrepet.isEmpty() || weightpet.isEmpty() || nameVacunapet.isEmpty() || dateVacunapet.isEmpty() || dateAntiparasitariopet.isEmpty() || dateAntipulgaspet.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Ingresar los datos", Toast.LENGTH_SHORT).show();
-                }else{
+                } else if (!isDateValid(dateVacunapet) || !isDateValid(dateAntiparasitariopet) || !isDateValid(dateAntipulgaspet)) {
+                    Toast.makeText(getApplicationContext(), "Use el formato dd/mm/yyyy. La fecha no puede ser futura.", Toast.LENGTH_LONG).show();
+                } else {
                     postPet(namepet, tipoMascotapet, agepet, genrepet, weightpet, nameVacunapet, dateVacunapet, dateAntiparasitariopet, dateAntipulgaspet);
                 }
 
@@ -96,6 +102,17 @@ public class MascotaActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Error al ingresar", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private boolean isDateValid(String dateStr) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy", Locale.getDefault());
+        sdf.setLenient(false);
+        try {
+            Date enteredDate = sdf.parse(dateStr);
+            return !enteredDate.after(new Date());
+        } catch (ParseException e) {
+            return false;
+        }
     }
 
     @Override

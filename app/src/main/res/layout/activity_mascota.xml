@@ -58,8 +58,7 @@
             android:layout_width="344dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginTop="24dp"            android:layout_marginEnd="32dp"
             android:inputType="text"
             android:hint="Genero" />
 
@@ -80,7 +79,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="32dp"
-            android:hint="Fecha de la ultima vacuna dada"
+            android:hint="Fecha de la ultima vacuna (dd/MM/yyyy)"
             android:inputType="date" />
 
         <EditText
@@ -90,7 +89,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="32dp"
-            android:hint="Ultima vez que se le dio el antiparasitario"
+            android:hint="Ultima vez que se le dio el antiparasitario (dd/MM/yyyy)"
             android:inputType="date" />
 
         <EditText
@@ -100,7 +99,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="32dp"
-            android:hint="Ultima vez que se le dio el antipulgas"
+            android:hint="Ultima vez que se le dio el antipulgas (dd/MM/yyyy)"
             android:inputType="date" />
 
         <Button
