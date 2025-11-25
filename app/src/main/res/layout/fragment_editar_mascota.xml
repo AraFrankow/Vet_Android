@@ -2,11 +2,11 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:context=".EditarMascotaFragment">
+    app:cardCornerRadius="22dp"
+    app:cardElevation="8dp"
+    android:background="#FFFFFF">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,153 +16,188 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="16dp">
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/titleEditar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:text="Editar Mascota"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#1B5E20"
+                android:gravity="center"
+                android:layout_marginBottom="16dp"/>
 
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nombre:" />
+                android:text="Nombre"
+                android:textColor="#1B5E20"
+                android:textStyle="bold"/>
 
             <EditText
                 android:id="@+id/nombre"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:inputType="text"/>
+                android:layout_height="50dp"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:layout_marginTop="6dp"/>
 
             <TextView
-                android:id="@+id/textView11"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Tipo de Mascota:" />
+                android:text="Tipo de Mascota"
+                android:textColor="#1B5E20"
+                android:textStyle="bold"
+                android:layout_marginTop="12dp"/>
 
             <EditText
                 android:id="@+id/tipoMascota"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:inputType="text"/>
+                android:layout_height="50dp"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:layout_marginTop="6dp"/>
 
             <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Edad:" />
+                android:text="Edad"
+                android:textColor="#1B5E20"
+                android:textStyle="bold"
+                android:layout_marginTop="12dp"/>
 
             <EditText
                 android:id="@+id/edad"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:inputType="number"/>
+                android:layout_height="50dp"
+                android:inputType="number"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:layout_marginTop="6dp"/>
 
             <TextView
-                android:id="@+id/textView6"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Peso:" />
+                android:text="Peso"
+                android:textColor="#1B5E20"
+                android:textStyle="bold"
+                android:layout_marginTop="12dp"/>
 
             <EditText
                 android:id="@+id/peso"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:inputType="number" />
+                android:layout_height="50dp"
+                android:inputType="number"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:layout_marginTop="6dp"/>
 
             <TextView
-                android:id="@+id/textView5"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Genero:" />
+                android:text="Género"
+                android:textColor="#1B5E20"
+                android:textStyle="bold"
+                android:layout_marginTop="12dp"/>
 
             <EditText
                 android:id="@+id/genero"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:inputType="text"/>
+                android:layout_height="50dp"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:layout_marginTop="6dp"/>
 
             <TextView
-                android:id="@+id/textView7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Nombre de la ultima vacuna dada:" />
+                android:text="Vacunas"
+                android:textStyle="bold"
+                android:textColor="#43A047"
+                android:textSize="18sp"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre de la última vacuna"
+                android:textColor="#1B5E20"/>
 
             <EditText
                 android:id="@+id/nombreVacuna"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:inputType="text"/>
+                android:layout_height="50dp"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:layout_marginTop="6dp"/>
 
             <TextView
-                android:id="@+id/textView8"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Fecha de la ultima vacuna dada:" />
+                android:text="Fecha"
+                android:textColor="#1B5E20"
+                android:layout_marginTop="12dp"/>
 
             <EditText
                 android:id="@+id/fechaVacuna"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_height="50dp"
                 android:hint="dd/mm/yyyy"
-                android:inputType="date" />
+                android:inputType="date"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:layout_marginTop="6dp"/>
 
             <TextView
-                android:id="@+id/textView9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Ultima vez que se le dio el antiparasitario:" />
+                android:text="Antiparasitario"
+                android:textStyle="bold"
+                android:textColor="#43A047"
+                android:textSize="18sp"
+                android:layout_marginTop="16dp"/>
 
             <EditText
                 android:id="@+id/fechaAntiparasitario"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_height="50dp"
                 android:hint="dd/mm/yyyy"
-                android:inputType="date" />
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:layout_marginTop="6dp"
+                android:inputType="date"/>
 
             <TextView
-                android:id="@+id/textView10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Ultima vez que se le dio el antipulgas:" />
+                android:text="Antipulgas"
+                android:textStyle="bold"
+                android:textColor="#43A047"
+                android:textSize="18sp"
+                android:layout_marginTop="16dp"/>
 
             <EditText
                 android:id="@+id/fechaAntipulgas"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_height="50dp"
                 android:hint="dd/mm/yyyy"
-                android:inputType="date" />
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:layout_marginTop="6dp"
+                android:inputType="date"/>
 
             <Button
                 android:id="@+id/btn_registro"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Actualizar" />
+                android:layout_height="55dp"
+                android:text="Actualizar"
+                android:backgroundTint="#43A047"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"/>
 
         </LinearLayout>
 

@@ -9,6 +9,7 @@ import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -38,6 +39,15 @@ public class EditarMascotaFragment extends DialogFragment{
         super.onCreate(savedInstanceState);
         if (getArguments()!=null){
             id_pet = getArguments().getString("id_pet");
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (getDialog() != null) {
+            int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.95);
+            getDialog().getWindow().setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
         }
     }
 
