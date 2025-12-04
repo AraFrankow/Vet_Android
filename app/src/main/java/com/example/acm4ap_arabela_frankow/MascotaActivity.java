@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,11 +28,14 @@ public class MascotaActivity extends AppCompatActivity {
     Button btn_agregar;
     EditText name, tipoMascota, age, weight, genre, nameVacuna, dateVacuna, dateAntiparasitario, dateAntipulgas;
     private FirebaseFirestore mfirestore;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mascota);
+
+        progressBar = findViewById(R.id.progressBar);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -79,6 +83,7 @@ public class MascotaActivity extends AppCompatActivity {
     }
 
     private void postPet(String namepet, String tipoMascotapet, String agepet, String genrepet, String weightpet, String nameVacunapet, String dateVacunapet, String dateAntiparasitariopet, String dateAntipulgaspet) {
+        progressBar.setVisibility(View.VISIBLE);
         Map<String, Object> map = new HashMap<>();
         map.put("name", namepet);
         map.put("tipoMascota", tipoMascotapet);
@@ -93,12 +98,14 @@ public class MascotaActivity extends AppCompatActivity {
         mfirestore.collection("pet").add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), "Creado exitosamente", Toast.LENGTH_SHORT).show();
                 finish();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), "Error al ingresar", Toast.LENGTH_SHORT).show();
             }
         });

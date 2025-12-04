@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,6 +34,7 @@ public class EditarMascotaFragment extends DialogFragment{
     Button btn_agregar;
     EditText name, tipoMascota, age, weight, genre, nameVacuna, dateVacuna, dateAntiparasitario, dateAntipulgas;
     private FirebaseFirestore mfirestore;
+    ProgressBar progressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public class EditarMascotaFragment extends DialogFragment{
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_editar_mascota, container, false);
         mfirestore = FirebaseFirestore.getInstance();
+        progressBar = v.findViewById(R.id.progressBar);
 
         name = v.findViewById(R.id.nombre);
         tipoMascota = v.findViewById(R.id.tipoMascota);
@@ -125,6 +128,7 @@ public class EditarMascotaFragment extends DialogFragment{
     }
 
     private void updatePet(String namepet, String tipoMascotapet, String agepet, String genrepet, String weightpet, String nameVacunapet, String dateVacunapet, String dateAntiparasitariopet, String dateAntipulgaspet) {
+        progressBar.setVisibility(View.VISIBLE);
         Map<String, Object> map = new HashMap<>();
         map.put("name", namepet);
         map.put("tipoMascota", tipoMascotapet);
@@ -139,18 +143,21 @@ public class EditarMascotaFragment extends DialogFragment{
         mfirestore.collection("pet").document(id_pet).update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "Actualizado exitosamente", Toast.LENGTH_SHORT).show();
                 getDialog().dismiss();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "Error al actualizar", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void postPet(String namepet, String tipoMascotapet, String agepet, String genrepet, String weightpet, String nameVacunapet, String dateVacunapet, String dateAntiparasitariopet, String dateAntipulgaspet) {
+        progressBar.setVisibility(View.VISIBLE);
         Map<String, Object> map = new HashMap<>();
         map.put("name", namepet);
         map.put("tipoMascota", tipoMascotapet);
@@ -165,12 +172,14 @@ public class EditarMascotaFragment extends DialogFragment{
         mfirestore.collection("pet").add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "Creado exitosamente", Toast.LENGTH_SHORT).show();
                 getDialog().dismiss();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "Error al ingresar", Toast.LENGTH_SHORT).show();
             }
         });
