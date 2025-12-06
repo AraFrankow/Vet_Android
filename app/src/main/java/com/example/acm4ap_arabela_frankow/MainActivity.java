@@ -3,7 +3,6 @@ package com.example.acm4ap_arabela_frankow;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.ActionBar;
@@ -14,13 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.acm4ap_arabela_frankow.Adapter.PetAdapter;
 import com.example.acm4ap_arabela_frankow.Model.Pet;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btn_add_pet_activity, btn_exit;
     RecyclerView mRecycler;
     PetAdapter mAdapter;
     FirebaseFirestore mFirestore;
@@ -32,6 +31,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
+        bottomNav.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_home) {
+                return true;
+            } else if (itemId == R.id.nav_add) {
+                startActivity(new Intent(MainActivity.this, MascotaActivity.class));
+                return true;
+            } else if (itemId == R.id.nav_user) {
+                startActivity(new Intent(MainActivity.this, PerfilActivity.class));
+                return true;
+            }
+            return false;
+        });
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -50,26 +63,6 @@ public class MainActivity extends AppCompatActivity {
 
         mAdapter = new PetAdapter(FirestoreRecyclerOptions, this, getSupportFragmentManager());
         mRecycler.setAdapter(mAdapter);
-
-        btn_add_pet_activity = findViewById(R.id.btn_add_pet_activity);
-        btn_add_pet_activity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, MascotaActivity.class));
-            }
-        });
-
-        btn_exit = findViewById(R.id.btn_close);
-        btn_exit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAuth.signOut();
-                finish();
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            }
-        });
-
-
     }
     @Override
     protected void onStart() {
@@ -82,6 +75,5 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         mAdapter.stopListening();
     }
-
 
 }

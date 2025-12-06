@@ -17,6 +17,11 @@
             android:parentActivityName=".LoginActivity"
             android:theme="@style/Theme.ACM4AP_Arabela_Frankow" />
         <activity
+            android:name=".PerfilActivity"
+            android:exported="true"
+            android:parentActivityName=".PerfilActivity"
+            android:theme="@style/Theme.ACM4AP_Arabela_Frankow"/>
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.ACM4AP_Arabela_Frankow" />
