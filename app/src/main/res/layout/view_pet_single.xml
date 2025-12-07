@@ -53,14 +53,21 @@
                     android:text="Tipo"
                     android:textSize="15sp"
                     android:textColor="#4E4E4E" />
-
+                <TextView
+                    android:id="@+id/edad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Edad: "
+                    android:textSize="15sp"
+                    android:textColor="#4E4E4E" />
                 <TextView
                     android:id="@+id/edadView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Edad"
                     android:textSize="15sp"
-                    android:textColor="#4E4E4E" />
+                    android:textColor="#4E4E4E"
+                    android:layout_marginRight="10dp"/>
             </LinearLayout>
         </LinearLayout>
 

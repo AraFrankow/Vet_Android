@@ -29,7 +29,8 @@
             android:name=".MascotaActivity"
             android:exported="true"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.ACM4AP_Arabela_Frankow" />
+            android:theme="@style/Theme.ACM4AP_Arabela_Frankow"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".LoginActivity"
             android:exported="true"

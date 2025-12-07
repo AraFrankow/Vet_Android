@@ -29,7 +29,7 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_marginTop="32dp"
-                android:src="@drawable/ic_user"
+                android:src="@drawable/ic_user_grande"
                 app:tint="?attr/colorPrimary"
                 android:contentDescription="@string/profile_image_description" />
 
