@@ -29,28 +29,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <EditText
-            android:id="@+id/correo"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="wrap_content"
             android:hint="Correo"
-            android:background="@drawable/edittext_background"
-            android:padding="12dp"
-            android:drawableStart="@drawable/ic_email"
-            android:drawablePadding="12dp"
-            android:inputType="textEmailAddress"/>
+            app:startIconDrawable="@drawable/ic_email">
 
-        <EditText
-            android:id="@+id/contrasena"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/correo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:hint="Contraseña"
-            android:background="@drawable/edittext_background"
-            android:padding="12dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:drawableStart="@drawable/ic_lock"
-            android:drawablePadding="12dp"
-            android:inputType="textPassword"/>
+            android:hint="Contraseña"
+            app:startIconDrawable="@drawable/ic_lock"
+            app:endIconMode="password_toggle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/contrasena"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btn_ingresar"

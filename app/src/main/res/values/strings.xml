@@ -2,4 +2,7 @@
     <string name="app_name">ACM4AP_Arabela_Frankow</string>
     <string name="profile_image_description">Imagen de perfil del usuario</string>
     <string name="no_user_name">Sin nombre de usuario</string>
+    <string name="date_format_hint">Fecha (dd/mm/yyyy)</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
