@@ -1,8 +1,6 @@
 package com.example.acm4ap_arabela_frankow.Adapter;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,29 +9,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.acm4ap_arabela_frankow.EditarMascotaFragment;
-import com.example.acm4ap_arabela_frankow.MascotaActivity;
 import com.example.acm4ap_arabela_frankow.Model.Pet;
 import com.example.acm4ap_arabela_frankow.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class PetAdapter extends FirestoreRecyclerAdapter<Pet, PetAdapter.ViewHolder> {
-    private FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
-    Activity activity;
-    FragmentManager fm;
 
-    public PetAdapter(@NonNull FirestoreRecyclerOptions<Pet> options, Activity activity, FragmentManager fm) {
+    public interface OnPetInteractionListener {
+        void onEditPet(String petId);
+    }
+
+    private final FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
+    private final Activity activity;
+    private final OnPetInteractionListener listener;
+
+    public PetAdapter(@NonNull FirestoreRecyclerOptions<Pet> options, Activity activity, OnPetInteractionListener listener) {
         super(options);
         this.activity = activity;
-        this.fm = fm;
+        this.listener = listener;
     }
 
     @Override
@@ -44,38 +42,20 @@ public class PetAdapter extends FirestoreRecyclerAdapter<Pet, PetAdapter.ViewHol
         viewHolder.name.setText(pet.getName());
         viewHolder.tipoMascota.setText(pet.getTipoMascota());
         viewHolder.age.setText(pet.getAge());
-        viewHolder.btn_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deletePet(id);
-            }
-        });
-        viewHolder.btn_edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(activity, MascotaActivity.class);
-                i.putExtra("id_pet", id);
-                EditarMascotaFragment editarMascotaFragment = new EditarMascotaFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("id_pet", id);
-                editarMascotaFragment.setArguments(bundle);
-                editarMascotaFragment.show(fm, "Navegar a Fragment");
+
+        viewHolder.btn_delete.setOnClickListener(v -> deletePet(id));
+
+        viewHolder.btn_edit.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onEditPet(id);
             }
         });
     }
 
     private void deletePet(String id) {
-        mFirestore.collection("pet").document(id).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(activity, "Eliminado exitosamente", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(activity, "Error al eliminar", Toast.LENGTH_SHORT).show();
-            }
-        });
+        mFirestore.collection("pet").document(id).delete()
+                .addOnSuccessListener(unused -> Toast.makeText(activity, "Eliminado exitosamente", Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> Toast.makeText(activity, "Error al eliminar", Toast.LENGTH_SHORT).show());
     }
 
     @NonNull
@@ -85,9 +65,10 @@ public class PetAdapter extends FirestoreRecyclerAdapter<Pet, PetAdapter.ViewHol
         return new ViewHolder(v);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView name, tipoMascota, age;
         ImageView btn_delete, btn_edit;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.nombreView);

@@ -1,217 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardCornerRadius="22dp"
-    app:cardElevation="8dp"
-    android:background="#FFFFFF">
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
+    android:clickable="true"
+    android:focusable="true"
+    tools:context=".EditarMascotaFragment">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/titleEditar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:text="Editar Mascota"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="?attr/colorPrimary"
+                android:gravity="center"
+                android:layout_marginBottom="16dp"/>
 
-                <TextView
-                    android:id="@+id/titleEditar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Editar Mascota"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
-                    android:textColor="#1B5E20"
-                    android:gravity="center"
-                    android:layout_marginBottom="16dp"/>
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nombre">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nombre"
-                    android:textColor="#1B5E20"
-                    android:textStyle="bold"/>
-
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/nombre"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/edittext_background"
-                    android:padding="12dp"
-                    android:layout_marginTop="6dp"/>
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tipo de Mascota"
-                    android:textColor="#1B5E20"
-                    android:textStyle="bold"
-                    android:layout_marginTop="12dp"/>
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="Tipo de Mascota">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tipoMascota"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/edittext_background"
-                    android:padding="12dp"
-                    android:layout_marginTop="6dp"/>
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Edad"
-                    android:textColor="#1B5E20"
-                    android:textStyle="bold"
-                    android:layout_marginTop="12dp"/>
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="Edad">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edad"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:inputType="number"
-                    android:background="@drawable/edittext_background"
-                    android:padding="12dp"
-                    android:layout_marginTop="6dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Peso"
-                    android:textColor="#1B5E20"
-                    android:textStyle="bold"
-                    android:layout_marginTop="12dp"/>
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="Peso">
+
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/peso"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:inputType="number"
-                    android:background="@drawable/edittext_background"
-                    android:padding="12dp"
-                    android:layout_marginTop="6dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Género"
-                    android:textColor="#1B5E20"
-                    android:textStyle="bold"
-                    android:layout_marginTop="12dp"/>
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="Género">
+
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/genero"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/edittext_background"
-                    android:padding="12dp"
-                    android:layout_marginTop="6dp"/>
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Vacunas"
-                    android:textStyle="bold"
-                    android:textColor="#43A047"
-                    android:textSize="18sp"
-                    android:layout_marginTop="16dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Vacunas"
+                android:textStyle="bold"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp"
+                android:layout_marginTop="24dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nombre de la última vacuna"
-                    android:textColor="#1B5E20"/>
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="Nombre de la última vacuna">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/nombreVacuna"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/edittext_background"
-                    android:padding="12dp"
-                    android:layout_marginTop="6dp"/>
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Fecha"
-                    android:textColor="#1B5E20"
-                    android:layout_marginTop="12dp"/>
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="@string/date_format_hint">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fechaVacuna"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:hint="dd/mm/yyyy"
-                    android:inputType="date"
-                    android:background="@drawable/edittext_background"
-                    android:padding="12dp"
-                    android:layout_marginTop="6dp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Antiparasitario"
-                    android:textStyle="bold"
-                    android:textColor="#43A047"
-                    android:textSize="18sp"
-                    android:layout_marginTop="16dp"/>
+                    android:inputType="date" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Antiparasitario"
+                android:textStyle="bold"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp"
+                android:layout_marginTop="24dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/date_format_hint">
+
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fechaAntiparasitario"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:hint="dd/mm/yyyy"
-                    android:background="@drawable/edittext_background"
-                    android:padding="12dp"
-                    android:layout_marginTop="6dp"
-                    android:inputType="date"/>
-
-                <TextView
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Antipulgas"
-                    android:textStyle="bold"
-                    android:textColor="#43A047"
-                    android:textSize="18sp"
-                    android:layout_marginTop="16dp"/>
+                    android:inputType="date"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Antipulgas"
+                android:textStyle="bold"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp"
+                android:layout_marginTop="24dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/date_format_hint">
+
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fechaAntipulgas"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:hint="dd/mm/yyyy"
-                    android:background="@drawable/edittext_background"
-                    android:padding="12dp"
-                    android:layout_marginTop="6dp"
+                    android:layout_height="wrap_content"
                     android:inputType="date"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <Button
-                    android:id="@+id/btn_registro"
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:text="Actualizar"
-                    android:backgroundTint="#43A047"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="10dp"/>
+            <Button
+                android:id="@+id/btn_actualizar"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:text="Actualizar"
+                android:layout_marginTop="24dp" />
+                
+            <Button
+                android:id="@+id/btn_cancelar"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cancelar" />
 
-            </LinearLayout>
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center"
-                android:visibility="gone"
-                android:indeterminate="true"
-                android:indeterminateDrawable="@drawable/progress_green"/>
-        </FrameLayout>
+        </LinearLayout>
     </ScrollView>
-</androidx.cardview.widget.CardView>
+</FrameLayout>
