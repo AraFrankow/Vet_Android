@@ -17,11 +17,13 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import java.util.Locale;
 
 public class PetAdapter extends FirestoreRecyclerAdapter<Pet, PetAdapter.ViewHolder> {
 
     public interface OnPetInteractionListener {
         void onEditPet(String petId);
+        void onViewPet(String petId);
     }
 
     private final FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
@@ -36,18 +38,29 @@ public class PetAdapter extends FirestoreRecyclerAdapter<Pet, PetAdapter.ViewHol
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder viewHolder, int i, @NonNull Pet pet) {
-        DocumentSnapshot documentSnapshot = getSnapshots().getSnapshot(viewHolder.getAbsoluteAdapterPosition());
+        int position = viewHolder.getAbsoluteAdapterPosition();
+        if (position == RecyclerView.NO_POSITION) {
+            return; 
+        }
+
+        DocumentSnapshot documentSnapshot = getSnapshots().getSnapshot(position);
         final String id = documentSnapshot.getId();
 
         viewHolder.name.setText(pet.getName());
         viewHolder.tipoMascota.setText(pet.getTipoMascota());
-        viewHolder.age.setText(pet.getAge());
+        viewHolder.age.setText(String.format(Locale.getDefault(), "Edad: %s", pet.getAge()));
 
         viewHolder.btn_delete.setOnClickListener(v -> deletePet(id));
 
         viewHolder.btn_edit.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onEditPet(id);
+            }
+        });
+
+        viewHolder.btn_ver.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onViewPet(id);
             }
         });
     }
@@ -67,7 +80,7 @@ public class PetAdapter extends FirestoreRecyclerAdapter<Pet, PetAdapter.ViewHol
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView name, tipoMascota, age;
-        ImageView btn_delete, btn_edit;
+        ImageView btn_delete, btn_edit, btn_ver;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,6 +89,7 @@ public class PetAdapter extends FirestoreRecyclerAdapter<Pet, PetAdapter.ViewHol
             age = itemView.findViewById(R.id.edadView);
             btn_delete = itemView.findViewById(R.id.btn_eliminar);
             btn_edit = itemView.findViewById(R.id.btn_editar);
+            btn_ver = itemView.findViewById(R.id.btn_ver);
         }
     }
 }

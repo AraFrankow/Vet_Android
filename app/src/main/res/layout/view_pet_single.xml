@@ -53,13 +53,7 @@
                     android:text="Tipo"
                     android:textSize="15sp"
                     android:textColor="#4E4E4E" />
-                <TextView
-                    android:id="@+id/edad"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Edad: "
-                    android:textSize="15sp"
-                    android:textColor="#4E4E4E" />
+
                 <TextView
                     android:id="@+id/edadView"
                     android:layout_width="wrap_content"
@@ -71,7 +65,16 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Botón eliminar -->
+        <ImageView
+            android:id="@+id/btn_ver"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/round_blue"
+            android:padding="7dp"
+            android:src="@drawable/ic_jeringa"
+            app:tint="#FFFFFF" />
+
         <ImageView
             android:id="@+id/btn_editar"
             android:layout_width="38dp"

@@ -9,7 +9,6 @@ import android.widget.FrameLayout;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,7 +16,6 @@ import com.example.acm4ap_arabela_frankow.Adapter.PetAdapter;
 import com.example.acm4ap_arabela_frankow.Model.Pet;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -34,6 +32,23 @@ public class MainActivity extends AppCompatActivity implements PetAdapter.OnPetI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setupBottomNavigation();
+        setupActionBar();
+
+        mFirestore = FirebaseFirestore.getInstance();
+        mRecycler = findViewById(R.id.recyclerViewSingle);
+        fragmentContainer = findViewById(R.id.fragment_container);
+
+        setupRecyclerView();
+
+        getSupportFragmentManager().addOnBackStackChangedListener(() -> {
+            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+                showRecyclerView();
+            }
+        });
+    }
+
+    private void setupBottomNavigation() {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
         bottomNav.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -48,28 +63,24 @@ public class MainActivity extends AppCompatActivity implements PetAdapter.OnPetI
             }
             return false;
         });
+    }
 
+    private void setupActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle("Mis Mascotas");
         }
+    }
 
-        mFirestore = FirebaseFirestore.getInstance();
-        mRecycler = findViewById(R.id.recyclerViewSingle);
-        fragmentContainer = findViewById(R.id.fragment_container);
-
+    private void setupRecyclerView() {
         mRecycler.setLayoutManager(new LinearLayoutManager(this));
         Query query = mFirestore.collection("pet");
-        FirestoreRecyclerOptions<Pet> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Pet>().setQuery(query, Pet.class).build();
+        FirestoreRecyclerOptions<Pet> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Pet>()
+                .setQuery(query, Pet.class)
+                .build();
 
         mAdapter = new PetAdapter(firestoreRecyclerOptions, this, this);
         mRecycler.setAdapter(mAdapter);
-
-        getSupportFragmentManager().addOnBackStackChangedListener(() -> {
-            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-                showRecyclerView();
-            }
-        });
     }
 
     @Override
@@ -77,13 +88,18 @@ public class MainActivity extends AppCompatActivity implements PetAdapter.OnPetI
         showFragment(EditarMascotaFragment.newInstance(petId));
     }
 
+    @Override
+    public void onViewPet(String petId) {
+        showFragment(PetDetailFragment.newInstance(petId));
+    }
+
     private void showFragment(Fragment fragment) {
-        mRecycler.setVisibility(View.GONE);
-        fragmentContainer.setVisibility(View.VISIBLE);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commit();
+        mRecycler.setVisibility(View.GONE);
+        fragmentContainer.setVisibility(View.VISIBLE);
     }
 
     private void showRecyclerView() {

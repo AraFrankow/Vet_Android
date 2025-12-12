@@ -51,6 +51,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tipoMascota"
+                    android:enabled="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -92,45 +93,108 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/genero"
+                    android:enabled="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
+            <!-- Vacunas de PERRO -->
+            <LinearLayout
+                android:id="@+id/vacunas_perro_container_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Vacunas"
-                android:textStyle="bold"
-                android:textColor="?attr/colorPrimary"
-                android:textSize="18sp"
-                android:layout_marginTop="24dp"/>
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:hint="Nombre de la última vacuna">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/nombreVacuna"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:hint="@string/date_format_hint">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/fechaVacuna"
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="date" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginTop="24dp"
+                    android:text="Vacunas para Perros"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/label_revacuna_perro_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="@string/revaccination_label"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="40dp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                    <CheckBox android:id="@+id/cb_rabia_perro_edit" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Rabia"/>
+                    <com.google.android.material.textfield.TextInputLayout android:id="@+id/layout_revacuna_rabia_perro_edit" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="180dp" android:layout_height="wrap_content" android:visibility="gone" android:hint="@string/date_format_hint"><com.google.android.material.textfield.TextInputEditText android:id="@+id/fecha_revacuna_rabia_perro_edit" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="date"/></com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                    <CheckBox android:id="@+id/cb_parvovirus_edit" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Parvovirus"/>
+                    <com.google.android.material.textfield.TextInputLayout android:id="@+id/layout_revacuna_parvovirus_edit" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="180dp" android:layout_height="wrap_content" android:visibility="gone" android:hint="@string/date_format_hint"><com.google.android.material.textfield.TextInputEditText android:id="@+id/fecha_revacuna_parvovirus_edit" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="date"/></com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                    <CheckBox android:id="@+id/cb_moquillo_edit" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Moquillo"/>
+                    <com.google.android.material.textfield.TextInputLayout android:id="@+id/layout_revacuna_moquillo_edit" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="180dp" android:layout_height="wrap_content" android:visibility="gone" android:hint="@string/date_format_hint"><com.google.android.material.textfield.TextInputEditText android:id="@+id/fecha_revacuna_moquillo_edit" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="date"/></com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                    <CheckBox android:id="@+id/cb_hepatitis_edit" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Hepatitis"/>
+                    <com.google.android.material.textfield.TextInputLayout android:id="@+id/layout_revacuna_hepatitis_edit" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="180dp" android:layout_height="wrap_content" android:visibility="gone" android:hint="@string/date_format_hint"><com.google.android.material.textfield.TextInputEditText android:id="@+id/fecha_revacuna_hepatitis_edit" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="date"/></com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                    <CheckBox android:id="@+id/cb_leptospirosis" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Leptospirosis"/>
+                    <com.google.android.material.textfield.TextInputLayout android:id="@+id/layout_revacuna_leptospirosis" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="180dp" android:layout_height="wrap_content" android:visibility="gone" android:hint="@string/date_format_hint"><com.google.android.material.textfield.TextInputEditText android:id="@+id/fecha_revacuna_leptospirosis" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="date"/></com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Vacunas de GATO -->
+            <LinearLayout
+                android:id="@+id/vacunas_gato_container_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Vacunas para Gatos"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/label_revacuna_gato_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="@string/revaccination_label"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="40dp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                    <CheckBox android:id="@+id/cb_trivalente_edit" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Trivalente Felina"/>
+                    <com.google.android.material.textfield.TextInputLayout android:id="@+id/layout_revacuna_trivalente_edit" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="180dp" android:layout_height="wrap_content" android:visibility="gone" android:hint="@string/date_format_hint"><com.google.android.material.textfield.TextInputEditText android:id="@+id/fecha_revacuna_trivalente_edit" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="date"/></com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                    <CheckBox android:id="@+id/cb_leucemia_edit" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Leucemia Felina"/>
+                    <com.google.android.material.textfield.TextInputLayout android:id="@+id/layout_revacuna_leucemia_edit" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="180dp" android:layout_height="wrap_content" android:visibility="gone" android:hint="@string/date_format_hint"><com.google.android.material.textfield.TextInputEditText android:id="@+id/fecha_revacuna_leucemia_edit" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="date"/></com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                    <CheckBox android:id="@+id/cb_rabia_gato_edit" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Rabia"/>
+                    <com.google.android.material.textfield.TextInputLayout android:id="@+id/layout_revacuna_rabia_gato_edit" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="180dp" android:layout_height="wrap_content" android:visibility="gone" android:hint="@string/date_format_hint"><com.google.android.material.textfield.TextInputEditText android:id="@+id/fecha_revacuna_rabia_gato_edit" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="date"/></com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
 
             <TextView
                 android:layout_width="match_parent"
@@ -184,7 +248,7 @@
                 android:layout_height="55dp"
                 android:text="Actualizar"
                 android:layout_marginTop="24dp" />
-                
+
             <Button
                 android:id="@+id/btn_cancelar"
                 style="@style/Widget.MaterialComponents.Button.TextButton"

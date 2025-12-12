@@ -5,6 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,6 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.acm4ap_arabela_frankow.Model.Pet;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -22,10 +26,23 @@ public class EditarMascotaFragment extends Fragment {
 
     private static final String ARG_PET_ID = "pet_id";
 
-    private TextInputEditText nombre, tipoMascota, edad, peso, genero, nombreVacuna, fechaVacuna, fechaAntiparasitario, fechaAntipulgas;
+    private TextInputEditText nombre, tipoMascota, edad, peso, genero, fechaAntiparasitario, fechaAntipulgas;
     private Button btnActualizar, btnCancelar;
     private FirebaseFirestore mFirestore;
     private String petId;
+
+    private LinearLayout vacunasPerroContainer, vacunasGatoContainer;
+    private TextView labelRevacunaPerro, labelRevacunaGato;
+
+    // --- Perros ---
+    private CheckBox cbRabiaPerro, cbParvovirus, cbMoquillo, cbHepatitis;
+    private TextInputLayout layoutRevacunaRabiaPerro, layoutRevacunaParvovirus, layoutRevacunaMoquillo, layoutRevacunaHepatitis;
+    private TextInputEditText fechaRevacunaRabiaPerro, fechaRevacunaParvovirus, fechaRevacunaMoquillo, fechaRevacunaHepatitis;
+
+    // --- Gatos ---
+    private CheckBox cbTrivalente, cbLeucemia, cbRabiaGato;
+    private TextInputLayout layoutRevacunaTrivalente, layoutRevacunaLeucemia, layoutRevacunaRabiaGato;
+    private TextInputEditText fechaRevacunaTrivalente, fechaRevacunaLeucemia, fechaRevacunaRabiaGato;
 
     public EditarMascotaFragment() {
         // Required empty public constructor
@@ -57,22 +74,89 @@ public class EditarMascotaFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        nombre = view.findViewById(R.id.nombre);
-        tipoMascota = view.findViewById(R.id.tipoMascota);
-        edad = view.findViewById(R.id.edad);
-        peso = view.findViewById(R.id.peso);
-        genero = view.findViewById(R.id.genero);
-        nombreVacuna = view.findViewById(R.id.nombreVacuna);
-        fechaVacuna = view.findViewById(R.id.fechaVacuna);
-        fechaAntiparasitario = view.findViewById(R.id.fechaAntiparasitario);
-        fechaAntipulgas = view.findViewById(R.id.fechaAntipulgas);
-        btnActualizar = view.findViewById(R.id.btn_actualizar);
-        btnCancelar = view.findViewById(R.id.btn_cancelar);
+        setupViews(view);
+        setupListeners();
 
         loadPetData();
 
         btnActualizar.setOnClickListener(v -> updatePet());
         btnCancelar.setOnClickListener(v -> getParentFragmentManager().popBackStack());
+    }
+
+    private void setupViews(View view) {
+        nombre = view.findViewById(R.id.nombre);
+        tipoMascota = view.findViewById(R.id.tipoMascota);
+        edad = view.findViewById(R.id.edad);
+        peso = view.findViewById(R.id.peso);
+        genero = view.findViewById(R.id.genero);
+        fechaAntiparasitario = view.findViewById(R.id.fechaAntiparasitario);
+        fechaAntipulgas = view.findViewById(R.id.fechaAntipulgas);
+        btnActualizar = view.findViewById(R.id.btn_actualizar);
+        btnCancelar = view.findViewById(R.id.btn_cancelar);
+
+        vacunasPerroContainer = view.findViewById(R.id.vacunas_perro_container_edit);
+        vacunasGatoContainer = view.findViewById(R.id.vacunas_gato_container_edit);
+        labelRevacunaPerro = view.findViewById(R.id.label_revacuna_perro_edit);
+        labelRevacunaGato = view.findViewById(R.id.label_revacuna_gato_edit);
+
+        // Vistas de vacunas para perros
+        cbRabiaPerro = view.findViewById(R.id.cb_rabia_perro_edit);
+        layoutRevacunaRabiaPerro = view.findViewById(R.id.layout_revacuna_rabia_perro_edit);
+        fechaRevacunaRabiaPerro = view.findViewById(R.id.fecha_revacuna_rabia_perro_edit);
+        cbParvovirus = view.findViewById(R.id.cb_parvovirus_edit);
+        layoutRevacunaParvovirus = view.findViewById(R.id.layout_revacuna_parvovirus_edit);
+        fechaRevacunaParvovirus = view.findViewById(R.id.fecha_revacuna_parvovirus_edit);
+        cbMoquillo = view.findViewById(R.id.cb_moquillo_edit);
+        layoutRevacunaMoquillo = view.findViewById(R.id.layout_revacuna_moquillo_edit);
+        fechaRevacunaMoquillo = view.findViewById(R.id.fecha_revacuna_moquillo_edit);
+        cbHepatitis = view.findViewById(R.id.cb_hepatitis_edit);
+        layoutRevacunaHepatitis = view.findViewById(R.id.layout_revacuna_hepatitis_edit);
+        fechaRevacunaHepatitis = view.findViewById(R.id.fecha_revacuna_hepatitis_edit);
+
+        // Vistas de vacunas para gatos
+        cbTrivalente = view.findViewById(R.id.cb_trivalente_edit);
+        layoutRevacunaTrivalente = view.findViewById(R.id.layout_revacuna_trivalente_edit);
+        fechaRevacunaTrivalente = view.findViewById(R.id.fecha_revacuna_trivalente_edit);
+        cbLeucemia = view.findViewById(R.id.cb_leucemia_edit);
+        layoutRevacunaLeucemia = view.findViewById(R.id.layout_revacuna_leucemia_edit);
+        fechaRevacunaLeucemia = view.findViewById(R.id.fecha_revacuna_leucemia_edit);
+        cbRabiaGato = view.findViewById(R.id.cb_rabia_gato_edit);
+        layoutRevacunaRabiaGato = view.findViewById(R.id.layout_revacuna_rabia_gato_edit);
+        fechaRevacunaRabiaGato = view.findViewById(R.id.fecha_revacuna_rabia_gato_edit);
+    }
+
+    private void setupListeners() {
+        // Listeners para perros
+        cbRabiaPerro.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            layoutRevacunaRabiaPerro.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            updatePerroLabelVisibility();
+        });
+        cbParvovirus.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            layoutRevacunaParvovirus.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            updatePerroLabelVisibility();
+        });
+        cbMoquillo.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            layoutRevacunaMoquillo.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            updatePerroLabelVisibility();
+        });
+        cbHepatitis.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            layoutRevacunaHepatitis.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            updatePerroLabelVisibility();
+        });
+
+        // Listeners para gatos
+        cbTrivalente.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            layoutRevacunaTrivalente.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            updateGatoLabelVisibility();
+        });
+        cbLeucemia.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            layoutRevacunaLeucemia.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            updateGatoLabelVisibility();
+        });
+        cbRabiaGato.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            layoutRevacunaRabiaGato.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            updateGatoLabelVisibility();
+        });
     }
 
     private void loadPetData() {
@@ -86,27 +170,57 @@ public class EditarMascotaFragment extends Fragment {
                         edad.setText(pet.getAge());
                         peso.setText(pet.getWeight());
                         genero.setText(pet.getGenre());
-                        nombreVacuna.setText(pet.getNameVacuna());
-                        fechaVacuna.setText(pet.getDateVacuna());
                         fechaAntiparasitario.setText(pet.getDateAntiparasitario());
                         fechaAntipulgas.setText(pet.getDateAntipulgas());
+
+                        if ("Perro".equals(pet.getTipoMascota())) {
+                            vacunasPerroContainer.setVisibility(View.VISIBLE);
+                            loadVaccineState(cbRabiaPerro, fechaRevacunaRabiaPerro, documentSnapshot, "vacuna_rabia");
+                            loadVaccineState(cbParvovirus, fechaRevacunaParvovirus, documentSnapshot, "vacuna_parvovirus");
+                            loadVaccineState(cbMoquillo, fechaRevacunaMoquillo, documentSnapshot, "vacuna_moquillo");
+                            loadVaccineState(cbHepatitis, fechaRevacunaHepatitis, documentSnapshot, "vacuna_hepatitis");
+                            updatePerroLabelVisibility();
+                        } else if ("Gato".equals(pet.getTipoMascota())) {
+                            vacunasGatoContainer.setVisibility(View.VISIBLE);
+                            loadVaccineState(cbTrivalente, fechaRevacunaTrivalente, documentSnapshot, "vacuna_trivalente");
+                            loadVaccineState(cbLeucemia, fechaRevacunaLeucemia, documentSnapshot, "vacuna_leucemia");
+                            loadVaccineState(cbRabiaGato, fechaRevacunaRabiaGato, documentSnapshot, "vacuna_rabia_gato");
+                            updateGatoLabelVisibility();
+                        }
                     }
                 }
             });
         }
     }
 
+    private void loadVaccineState(CheckBox checkBox, TextInputEditText dateInput, com.google.firebase.firestore.DocumentSnapshot snapshot, String vaccineField) {
+        Boolean isChecked = snapshot.getBoolean(vaccineField);
+        checkBox.setChecked(isChecked != null && isChecked);
+        if (checkBox.isChecked()) {
+            dateInput.setText(snapshot.getString(vaccineField + "_revacuna"));
+        }
+    }
+
     private void updatePet() {
         Map<String, Object> map = new HashMap<>();
         map.put("name", nombre.getText().toString());
-        map.put("tipoMascota", tipoMascota.getText().toString());
         map.put("age", edad.getText().toString());
         map.put("weight", peso.getText().toString());
         map.put("genre", genero.getText().toString());
-        map.put("nameVacuna", nombreVacuna.getText().toString());
-        map.put("dateVacuna", fechaVacuna.getText().toString());
         map.put("dateAntiparasitario", fechaAntiparasitario.getText().toString());
         map.put("dateAntipulgas", fechaAntipulgas.getText().toString());
+
+        String petType = tipoMascota.getText().toString();
+        if ("Perro".equals(petType)) {
+            addVaccineDataToMap(map, "vacuna_rabia", cbRabiaPerro, fechaRevacunaRabiaPerro);
+            addVaccineDataToMap(map, "vacuna_parvovirus", cbParvovirus, fechaRevacunaParvovirus);
+            addVaccineDataToMap(map, "vacuna_moquillo", cbMoquillo, fechaRevacunaMoquillo);
+            addVaccineDataToMap(map, "vacuna_hepatitis", cbHepatitis, fechaRevacunaHepatitis);
+        } else if ("Gato".equals(petType)) {
+            addVaccineDataToMap(map, "vacuna_trivalente", cbTrivalente, fechaRevacunaTrivalente);
+            addVaccineDataToMap(map, "vacuna_leucemia", cbLeucemia, fechaRevacunaLeucemia);
+            addVaccineDataToMap(map, "vacuna_rabia_gato", cbRabiaGato, fechaRevacunaRabiaGato);
+        }
 
         mFirestore.collection("pet").document(petId).update(map)
                 .addOnSuccessListener(aVoid -> {
@@ -114,5 +228,24 @@ public class EditarMascotaFragment extends Fragment {
                     getParentFragmentManager().popBackStack();
                 })
                 .addOnFailureListener(e -> Toast.makeText(getContext(), "Error al actualizar", Toast.LENGTH_SHORT).show());
+    }
+
+    private void addVaccineDataToMap(Map<String, Object> map, String vaccineName, CheckBox checkBox, TextInputEditText dateInput) {
+        map.put(vaccineName, checkBox.isChecked());
+        if (checkBox.isChecked()) {
+            map.put(vaccineName + "_revacuna", dateInput.getText().toString().trim());
+        } else {
+            map.put(vaccineName + "_revacuna", null);
+        }
+    }
+
+    private void updatePerroLabelVisibility() {
+        boolean anyCheckboxChecked = cbRabiaPerro.isChecked() || cbParvovirus.isChecked() || cbMoquillo.isChecked() || cbHepatitis.isChecked();
+        labelRevacunaPerro.setVisibility(anyCheckboxChecked ? View.VISIBLE : View.GONE);
+    }
+
+    private void updateGatoLabelVisibility() {
+        boolean anyCheckboxChecked = cbTrivalente.isChecked() || cbLeucemia.isChecked() || cbRabiaGato.isChecked();
+        labelRevacunaGato.setVisibility(anyCheckboxChecked ? View.VISIBLE : View.GONE);
     }
 }
