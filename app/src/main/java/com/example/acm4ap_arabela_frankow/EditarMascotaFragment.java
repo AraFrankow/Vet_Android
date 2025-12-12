@@ -35,9 +35,9 @@ public class EditarMascotaFragment extends Fragment {
     private TextView labelRevacunaPerro, labelRevacunaGato;
 
     // --- Perros ---
-    private CheckBox cbRabiaPerro, cbParvovirus, cbMoquillo, cbHepatitis;
-    private TextInputLayout layoutRevacunaRabiaPerro, layoutRevacunaParvovirus, layoutRevacunaMoquillo, layoutRevacunaHepatitis;
-    private TextInputEditText fechaRevacunaRabiaPerro, fechaRevacunaParvovirus, fechaRevacunaMoquillo, fechaRevacunaHepatitis;
+    private CheckBox cbRabiaPerro, cbParvovirus, cbMoquillo, cbHepatitis, cbLeptospirosis;
+    private TextInputLayout layoutRevacunaRabiaPerro, layoutRevacunaParvovirus, layoutRevacunaMoquillo, layoutRevacunaHepatitis, layoutRevacunaLeptospirosis;
+    private TextInputEditText fechaRevacunaRabiaPerro, fechaRevacunaParvovirus, fechaRevacunaMoquillo, fechaRevacunaHepatitis, fechaRevacunaLeptospirosis;
 
     // --- Gatos ---
     private CheckBox cbTrivalente, cbLeucemia, cbRabiaGato;
@@ -112,6 +112,9 @@ public class EditarMascotaFragment extends Fragment {
         cbHepatitis = view.findViewById(R.id.cb_hepatitis_edit);
         layoutRevacunaHepatitis = view.findViewById(R.id.layout_revacuna_hepatitis_edit);
         fechaRevacunaHepatitis = view.findViewById(R.id.fecha_revacuna_hepatitis_edit);
+        cbLeptospirosis = view.findViewById(R.id.cb_leptospirosis_edit);
+        layoutRevacunaLeptospirosis = view.findViewById(R.id.layout_revacuna_leptospirosis_edit);
+        fechaRevacunaLeptospirosis = view.findViewById(R.id.fecha_revacuna_leptospirosis_edit);
 
         // Vistas de vacunas para gatos
         cbTrivalente = view.findViewById(R.id.cb_trivalente_edit);
@@ -141,6 +144,10 @@ public class EditarMascotaFragment extends Fragment {
         });
         cbHepatitis.setOnCheckedChangeListener((buttonView, isChecked) -> {
             layoutRevacunaHepatitis.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            updatePerroLabelVisibility();
+        });
+        cbLeptospirosis.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            layoutRevacunaLeptospirosis.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             updatePerroLabelVisibility();
         });
 
@@ -179,6 +186,7 @@ public class EditarMascotaFragment extends Fragment {
                             loadVaccineState(cbParvovirus, fechaRevacunaParvovirus, documentSnapshot, "vacuna_parvovirus");
                             loadVaccineState(cbMoquillo, fechaRevacunaMoquillo, documentSnapshot, "vacuna_moquillo");
                             loadVaccineState(cbHepatitis, fechaRevacunaHepatitis, documentSnapshot, "vacuna_hepatitis");
+                            loadVaccineState(cbLeptospirosis, fechaRevacunaLeptospirosis, documentSnapshot, "vacuna_leptospirosis");
                             updatePerroLabelVisibility();
                         } else if ("Gato".equals(pet.getTipoMascota())) {
                             vacunasGatoContainer.setVisibility(View.VISIBLE);
@@ -216,6 +224,7 @@ public class EditarMascotaFragment extends Fragment {
             addVaccineDataToMap(map, "vacuna_parvovirus", cbParvovirus, fechaRevacunaParvovirus);
             addVaccineDataToMap(map, "vacuna_moquillo", cbMoquillo, fechaRevacunaMoquillo);
             addVaccineDataToMap(map, "vacuna_hepatitis", cbHepatitis, fechaRevacunaHepatitis);
+            addVaccineDataToMap(map, "vacuna_leptospirosis", cbLeptospirosis, fechaRevacunaLeptospirosis);
         } else if ("Gato".equals(petType)) {
             addVaccineDataToMap(map, "vacuna_trivalente", cbTrivalente, fechaRevacunaTrivalente);
             addVaccineDataToMap(map, "vacuna_leucemia", cbLeucemia, fechaRevacunaLeucemia);
@@ -240,7 +249,7 @@ public class EditarMascotaFragment extends Fragment {
     }
 
     private void updatePerroLabelVisibility() {
-        boolean anyCheckboxChecked = cbRabiaPerro.isChecked() || cbParvovirus.isChecked() || cbMoquillo.isChecked() || cbHepatitis.isChecked();
+        boolean anyCheckboxChecked = cbRabiaPerro.isChecked() || cbParvovirus.isChecked() || cbMoquillo.isChecked() || cbHepatitis.isChecked() || cbLeptospirosis.isChecked();
         labelRevacunaPerro.setVisibility(anyCheckboxChecked ? View.VISIBLE : View.GONE);
     }
 

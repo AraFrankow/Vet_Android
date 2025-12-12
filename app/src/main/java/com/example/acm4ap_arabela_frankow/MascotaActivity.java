@@ -32,9 +32,9 @@ public class MascotaActivity extends AppCompatActivity {
     private TextView labelRevacunaPerro, labelRevacunaGato;
 
     // --- Perros ---
-    private CheckBox cbRabiaPerro, cbParvovirus, cbMoquillo, cbHepatitis;
-    private TextInputLayout layoutRevacunaRabiaPerro, layoutRevacunaParvovirus, layoutRevacunaMoquillo, layoutRevacunaHepatitis;
-    private TextInputEditText fechaRevacunaRabiaPerro, fechaRevacunaParvovirus, fechaRevacunaMoquillo, fechaRevacunaHepatitis;
+    private CheckBox cbRabiaPerro, cbParvovirus, cbMoquillo, cbHepatitis, cbLeptospirosis;
+    private TextInputLayout layoutRevacunaRabiaPerro, layoutRevacunaParvovirus, layoutRevacunaMoquillo, layoutRevacunaHepatitis, layoutRevacunaLeptospirosis;
+    private TextInputEditText fechaRevacunaRabiaPerro, fechaRevacunaParvovirus, fechaRevacunaMoquillo, fechaRevacunaHepatitis, fechaRevacunaLeptospirosis;
 
     // --- Gatos ---
     private CheckBox cbTrivalente, cbLeucemia, cbRabiaGato;
@@ -91,6 +91,9 @@ public class MascotaActivity extends AppCompatActivity {
         cbHepatitis = findViewById(R.id.cb_hepatitis);
         layoutRevacunaHepatitis = findViewById(R.id.layout_revacuna_hepatitis);
         fechaRevacunaHepatitis = findViewById(R.id.fecha_revacuna_hepatitis);
+        cbLeptospirosis = findViewById(R.id.cb_leptospirosis);
+        layoutRevacunaLeptospirosis = findViewById(R.id.layout_revacuna_leptospirosis);
+        fechaRevacunaLeptospirosis = findViewById(R.id.fecha_revacuna_leptospirosis);
 
         // Vistas de vacunas para gatos
         cbTrivalente = findViewById(R.id.cb_trivalente);
@@ -148,13 +151,9 @@ public class MascotaActivity extends AppCompatActivity {
     }
 
     private void setupPetGenreDropdown() {
-        String[] petGenre = new String[]{"Masculino", "Femenino"};
+        String[] petGenre = new String[]{"Macho", "Hembra"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, petGenre);
         genre.setAdapter(adapter);
-        genre.setOnItemClickListener((parent, view, position, id) -> {
-            String selected = (String) parent.getItemAtPosition(position);
-        });
-
     }
 
     private void setupVaccineListeners() {
@@ -175,6 +174,10 @@ public class MascotaActivity extends AppCompatActivity {
             layoutRevacunaHepatitis.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             updatePerroLabelVisibility();
         });
+        cbLeptospirosis.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            layoutRevacunaLeptospirosis.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            updatePerroLabelVisibility();
+        });
 
         // Listeners para gatos
         cbTrivalente.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -192,7 +195,7 @@ public class MascotaActivity extends AppCompatActivity {
     }
 
     private void updatePerroLabelVisibility() {
-        boolean anyCheckboxChecked = cbRabiaPerro.isChecked() || cbParvovirus.isChecked() || cbMoquillo.isChecked() || cbHepatitis.isChecked();
+        boolean anyCheckboxChecked = cbRabiaPerro.isChecked() || cbParvovirus.isChecked() || cbMoquillo.isChecked() || cbHepatitis.isChecked() || cbLeptospirosis.isChecked();
         labelRevacunaPerro.setVisibility(anyCheckboxChecked ? View.VISIBLE : View.GONE);
     }
 
@@ -225,12 +228,12 @@ public class MascotaActivity extends AppCompatActivity {
         map.put("dateAntiparasitario", dateAntiparasitariopet);
         map.put("dateAntipulgas", dateAntipulgaspet);
 
-        // Añadir estado y fechas de vacunas según el tipo de mascota
         if ("Perro".equals(tipoMascotapet)) {
             addVaccineDataToMap(map, "vacuna_rabia", cbRabiaPerro, fechaRevacunaRabiaPerro);
             addVaccineDataToMap(map, "vacuna_parvovirus", cbParvovirus, fechaRevacunaParvovirus);
             addVaccineDataToMap(map, "vacuna_moquillo", cbMoquillo, fechaRevacunaMoquillo);
             addVaccineDataToMap(map, "vacuna_hepatitis", cbHepatitis, fechaRevacunaHepatitis);
+            addVaccineDataToMap(map, "vacuna_leptospirosis", cbLeptospirosis, fechaRevacunaLeptospirosis);
         } else if ("Gato".equals(tipoMascotapet)) {
             addVaccineDataToMap(map, "vacuna_trivalente", cbTrivalente, fechaRevacunaTrivalente);
             addVaccineDataToMap(map, "vacuna_leucemia", cbLeucemia, fechaRevacunaLeucemia);
@@ -244,6 +247,8 @@ public class MascotaActivity extends AppCompatActivity {
         map.put(vaccineName, checkBox.isChecked());
         if (checkBox.isChecked()) {
             map.put(vaccineName + "_revacuna", dateInput.getText().toString().trim());
+        } else {
+            map.put(vaccineName + "_revacuna", null);
         }
     }
 

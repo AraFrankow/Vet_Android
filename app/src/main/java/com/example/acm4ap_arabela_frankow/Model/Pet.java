@@ -15,6 +15,8 @@ public class Pet {
     private String vacuna_moquillo_revacuna;
     private boolean vacuna_hepatitis;
     private String vacuna_hepatitis_revacuna;
+    private boolean vacuna_leptospirosis;
+    private String vacuna_leptospirosis_revacuna;
 
     // Cat vaccines
     private boolean vacuna_trivalente;
@@ -146,6 +148,22 @@ public class Pet {
 
     public void setVacuna_hepatitis_revacuna(String vacuna_hepatitis_revacuna) {
         this.vacuna_hepatitis_revacuna = vacuna_hepatitis_revacuna;
+    }
+
+    public boolean isVacuna_leptospirosis() {
+        return vacuna_leptospirosis;
+    }
+
+    public void setVacuna_leptospirosis(boolean vacuna_leptospirosis) {
+        this.vacuna_leptospirosis = vacuna_leptospirosis;
+    }
+
+    public String getVacuna_leptospirosis_revacuna() {
+        return vacuna_leptospirosis_revacuna;
+    }
+
+    public void setVacuna_leptospirosis_revacuna(String vacuna_leptospirosis_revacuna) {
+        this.vacuna_leptospirosis_revacuna = vacuna_leptospirosis_revacuna;
     }
 
     public boolean isVacuna_trivalente() {

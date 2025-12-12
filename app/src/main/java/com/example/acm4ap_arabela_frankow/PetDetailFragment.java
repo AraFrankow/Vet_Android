@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.acm4ap_arabela_frankow.Model.Pet;
@@ -130,10 +131,19 @@ public class PetDetailFragment extends Fragment {
     }
 
     private void calculateNextTreatmentDates(Pet pet) {
-        final int diasParaAntiparasitario = 90; // Cada 3 meses
-        final int diasParaAntipulgas = 30;    // Cada 1 mes
+        final int diasParaAntiparasitario = 90;
+        final int diasParaAntipulgasPerro = 30;
+        final int diasParaAntipulgasGato = 120;
 
         calculateCountdown(antiparasitarioDetail, "Próximo antiparasitario en:", pet.getDateAntiparasitario(), diasParaAntiparasitario);
+
+        int diasParaAntipulgas;
+        if ("Perro".equals(pet.getTipoMascota())) {
+            diasParaAntipulgas = diasParaAntipulgasPerro;
+        } else {
+            diasParaAntipulgas = diasParaAntipulgasGato;
+        }
+
         calculateCountdown(antipulgasDetail, "Próximo antipulgas en:", pet.getDateAntipulgas(), diasParaAntipulgas);
     }
 
@@ -157,9 +167,11 @@ public class PetDetailFragment extends Fragment {
             long diffInMillis = nextDate.getTime() - today.getTime();
             long daysRemaining = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
 
+            textView.setTextColor(ContextCompat.getColor(getContext(), android.R.color.black)); // Reset color
             if (daysRemaining > 0) {
                 textView.setText(String.format(Locale.getDefault(),"%s %d días", prefix, daysRemaining));
             } else {
+                textView.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
                 textView.setText(prefix + " ¡Vencido!");
             }
         } catch (ParseException e) {
@@ -174,6 +186,7 @@ public class PetDetailFragment extends Fragment {
             vaccines.put("vacuna_parvovirus", "Parvovirus");
             vaccines.put("vacuna_moquillo", "Moquillo");
             vaccines.put("vacuna_hepatitis", "Hepatitis");
+            vaccines.put("vacuna_leptospirosis", "Leptospirosis");
         } else if ("Gato".equals(petType)) {
             vaccines.put("vacuna_trivalente", "Trivalente Felina");
             vaccines.put("vacuna_leucemia", "Leucemia Felina");
