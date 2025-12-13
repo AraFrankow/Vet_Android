@@ -9,10 +9,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.acm4ap_arabela_frankow.Model.Pet;
 import com.example.acm4ap_arabela_frankow.R;
+import com.example.acm4ap_arabela_frankow.verificarContraFragment;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -49,16 +51,33 @@ public class PetAdapter extends FirestoreRecyclerAdapter<Pet, PetAdapter.ViewHol
         viewHolder.name.setText(pet.getName());
         viewHolder.tipoMascota.setText(pet.getTipoMascota());
         viewHolder.age.setText(String.format(Locale.getDefault(), "Edad: %s", pet.getAge()));
-
-        viewHolder.btn_delete.setOnClickListener(v -> deletePet(id));
+        viewHolder.btn_delete.setOnClickListener(v -> {
+            new AlertDialog.Builder(activity)
+                    .setTitle("Eliminar mascota")
+                    .setMessage("¿Estás seguro de que quieres eliminar esta mascota? Esta acción no se puede deshacer.")
+                    .setPositiveButton("Continuar", (dialog, which) -> {
+                        deletePet(id);
+                    })
+                    .setNegativeButton("Cancelar", null)
+                    .show();
+        });
 
         viewHolder.btn_edit.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onEditPet(id);
             }
         });
-
         viewHolder.btn_ver.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onViewPet(id);
+            }
+        });
+        viewHolder.name.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onViewPet(id);
+            }
+        });
+        viewHolder.icon_pet.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onViewPet(id);
             }
@@ -80,7 +99,7 @@ public class PetAdapter extends FirestoreRecyclerAdapter<Pet, PetAdapter.ViewHol
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView name, tipoMascota, age;
-        ImageView btn_delete, btn_edit, btn_ver;
+        ImageView btn_delete, btn_edit, btn_ver, icon_pet;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -90,6 +109,7 @@ public class PetAdapter extends FirestoreRecyclerAdapter<Pet, PetAdapter.ViewHol
             btn_delete = itemView.findViewById(R.id.btn_eliminar);
             btn_edit = itemView.findViewById(R.id.btn_editar);
             btn_ver = itemView.findViewById(R.id.btn_ver);
+            icon_pet = itemView.findViewById(R.id.icon_pet);
         }
     }
 }
