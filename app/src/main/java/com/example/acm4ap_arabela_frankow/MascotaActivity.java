@@ -30,17 +30,17 @@ public class MascotaActivity extends AppCompatActivity {
     private AutoCompleteTextView tipoMascota, genre, race;
     private TextInputLayout layoutOtraRaza;
     private LinearLayout vacunasPerroContainer, vacunasGatoContainer;
-    private TextView labelRevacunaPerro, labelRevacunaGato;
+    private TextView labelVacunaPerro, labelVacunaGato;
 
     // --- Perros ---
     private CheckBox cbRabiaPerro, cbParvovirus, cbMoquillo, cbHepatitis, cbLeptospirosis;
-    private TextInputLayout layoutRevacunaRabiaPerro, layoutRevacunaParvovirus, layoutRevacunaMoquillo, layoutRevacunaHepatitis, layoutRevacunaLeptospirosis;
-    private TextInputEditText fechaRevacunaRabiaPerro, fechaRevacunaParvovirus, fechaRevacunaMoquillo, fechaRevacunaHepatitis, fechaRevacunaLeptospirosis;
+    private TextInputLayout layoutVacunaRabiaPerro, layoutVacunaParvovirus, layoutVacunaMoquillo, layoutVacunaHepatitis, layoutVacunaLeptospirosis;
+    private TextInputEditText fechaVacunaRabiaPerro, fechaVacunaParvovirus, fechaVacunaMoquillo, fechaVacunaHepatitis, fechaVacunaLeptospirosis;
 
     // --- Gatos ---
     private CheckBox cbTrivalente, cbLeucemia, cbRabiaGato;
-    private TextInputLayout layoutRevacunaTrivalente, layoutRevacunaLeucemia, layoutRevacunaRabiaGato;
-    private TextInputEditText fechaRevacunaTrivalente, fechaRevacunaLeucemia, fechaRevacunaRabiaGato;
+    private TextInputLayout layoutVacunaTrivalente, layoutVacunaLeucemia, layoutVacunaRabiaGato;
+    private TextInputEditText fechaVacunaTrivalente, fechaVacunaLeucemia, fechaVacunaRabiaGato;
 
     private FirebaseFirestore mfirestore;
     private ProgressBar progressBar;
@@ -78,37 +78,37 @@ public class MascotaActivity extends AppCompatActivity {
 
         vacunasPerroContainer = findViewById(R.id.vacunas_perro_container);
         vacunasGatoContainer = findViewById(R.id.vacunas_gato_container);
-        labelRevacunaPerro = findViewById(R.id.label_revacuna_perro);
-        labelRevacunaGato = findViewById(R.id.label_revacuna_gato);
+        labelVacunaPerro = findViewById(R.id.label_vacuna_perro);
+        labelVacunaGato = findViewById(R.id.label_vacuna_gato);
 
 
         // Vistas de vacunas para perros
         cbRabiaPerro = findViewById(R.id.cb_rabia_perro);
-        layoutRevacunaRabiaPerro = findViewById(R.id.layout_revacuna_rabia_perro);
-        fechaRevacunaRabiaPerro = findViewById(R.id.fecha_revacuna_rabia_perro);
+        layoutVacunaRabiaPerro = findViewById(R.id.layout_vacuna_rabia_perro);
+        fechaVacunaRabiaPerro = findViewById(R.id.fecha_vacuna_rabia_perro);
         cbParvovirus = findViewById(R.id.cb_parvovirus);
-        layoutRevacunaParvovirus = findViewById(R.id.layout_revacuna_parvovirus);
-        fechaRevacunaParvovirus = findViewById(R.id.fecha_revacuna_parvovirus);
+        layoutVacunaParvovirus = findViewById(R.id.layout_vacuna_parvovirus);
+        fechaVacunaParvovirus = findViewById(R.id.fecha_vacuna_parvovirus);
         cbMoquillo = findViewById(R.id.cb_moquillo);
-        layoutRevacunaMoquillo = findViewById(R.id.layout_revacuna_moquillo);
-        fechaRevacunaMoquillo = findViewById(R.id.fecha_revacuna_moquillo);
+        layoutVacunaMoquillo = findViewById(R.id.layout_vacuna_moquillo);
+        fechaVacunaMoquillo = findViewById(R.id.fecha_vacuna_moquillo);
         cbHepatitis = findViewById(R.id.cb_hepatitis);
-        layoutRevacunaHepatitis = findViewById(R.id.layout_revacuna_hepatitis);
-        fechaRevacunaHepatitis = findViewById(R.id.fecha_revacuna_hepatitis);
+        layoutVacunaHepatitis = findViewById(R.id.layout_vacuna_hepatitis);
+        fechaVacunaHepatitis = findViewById(R.id.fecha_vacuna_hepatitis);
         cbLeptospirosis = findViewById(R.id.cb_leptospirosis);
-        layoutRevacunaLeptospirosis = findViewById(R.id.layout_revacuna_leptospirosis);
-        fechaRevacunaLeptospirosis = findViewById(R.id.fecha_revacuna_leptospirosis);
+        layoutVacunaLeptospirosis = findViewById(R.id.layout_vacuna_leptospirosis);
+        fechaVacunaLeptospirosis = findViewById(R.id.fecha_vacuna_leptospirosis);
 
         // Vistas de vacunas para gatos
         cbTrivalente = findViewById(R.id.cb_trivalente);
-        layoutRevacunaTrivalente = findViewById(R.id.layout_revacuna_trivalente);
-        fechaRevacunaTrivalente = findViewById(R.id.fecha_revacuna_trivalente);
+        layoutVacunaTrivalente = findViewById(R.id.layout_vacuna_trivalente);
+        fechaVacunaTrivalente = findViewById(R.id.fecha_vacuna_trivalente);
         cbLeucemia = findViewById(R.id.cb_leucemia);
-        layoutRevacunaLeucemia = findViewById(R.id.layout_revacuna_leucemia);
-        fechaRevacunaLeucemia = findViewById(R.id.fecha_revacuna_leucemia);
+        layoutVacunaLeucemia = findViewById(R.id.layout_vacuna_leucemia);
+        fechaVacunaLeucemia = findViewById(R.id.fecha_vacuna_leucemia);
         cbRabiaGato = findViewById(R.id.cb_rabia_gato);
-        layoutRevacunaRabiaGato = findViewById(R.id.layout_revacuna_rabia_gato);
-        fechaRevacunaRabiaGato = findViewById(R.id.fecha_revacuna_rabia_gato);
+        layoutVacunaRabiaGato = findViewById(R.id.layout_vacuna_rabia_gato);
+        fechaVacunaRabiaGato = findViewById(R.id.fecha_vacuna_rabia_gato);
     }
 
     private void setupBottomNavigation() {
@@ -184,49 +184,49 @@ public class MascotaActivity extends AppCompatActivity {
     private void setupVaccineListeners() {
         // Listeners para perros
         cbRabiaPerro.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            layoutRevacunaRabiaPerro.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            layoutVacunaRabiaPerro.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             updatePerroLabelVisibility();
         });
         cbParvovirus.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            layoutRevacunaParvovirus.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            layoutVacunaParvovirus.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             updatePerroLabelVisibility();
         });
         cbMoquillo.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            layoutRevacunaMoquillo.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            layoutVacunaMoquillo.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             updatePerroLabelVisibility();
         });
         cbHepatitis.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            layoutRevacunaHepatitis.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            layoutVacunaHepatitis.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             updatePerroLabelVisibility();
         });
         cbLeptospirosis.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            layoutRevacunaLeptospirosis.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            layoutVacunaLeptospirosis.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             updatePerroLabelVisibility();
         });
 
         // Listeners para gatos
         cbTrivalente.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            layoutRevacunaTrivalente.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            layoutVacunaTrivalente.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             updateGatoLabelVisibility();
         });
         cbLeucemia.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            layoutRevacunaLeucemia.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            layoutVacunaLeucemia.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             updateGatoLabelVisibility();
         });
         cbRabiaGato.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            layoutRevacunaRabiaGato.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            layoutVacunaRabiaGato.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             updateGatoLabelVisibility();
         });
     }
 
     private void updatePerroLabelVisibility() {
         boolean anyCheckboxChecked = cbRabiaPerro.isChecked() || cbParvovirus.isChecked() || cbMoquillo.isChecked() || cbHepatitis.isChecked() || cbLeptospirosis.isChecked();
-        labelRevacunaPerro.setVisibility(anyCheckboxChecked ? View.VISIBLE : View.GONE);
+        labelVacunaPerro.setVisibility(anyCheckboxChecked ? View.VISIBLE : View.GONE);
     }
 
     private void updateGatoLabelVisibility() {
         boolean anyCheckboxChecked = cbTrivalente.isChecked() || cbLeucemia.isChecked() || cbRabiaGato.isChecked();
-        labelRevacunaGato.setVisibility(anyCheckboxChecked ? View.VISIBLE : View.GONE);
+        labelVacunaGato.setVisibility(anyCheckboxChecked ? View.VISIBLE : View.GONE);
     }
 
 
@@ -264,15 +264,15 @@ public class MascotaActivity extends AppCompatActivity {
         map.put("dateAntipulgas", dateAntipulgaspet);
 
         if ("Perro".equals(tipoMascotapet)) {
-            addVaccineDataToMap(map, "vacuna_rabia", cbRabiaPerro, fechaRevacunaRabiaPerro);
-            addVaccineDataToMap(map, "vacuna_parvovirus", cbParvovirus, fechaRevacunaParvovirus);
-            addVaccineDataToMap(map, "vacuna_moquillo", cbMoquillo, fechaRevacunaMoquillo);
-            addVaccineDataToMap(map, "vacuna_hepatitis", cbHepatitis, fechaRevacunaHepatitis);
-            addVaccineDataToMap(map, "vacuna_leptospirosis", cbLeptospirosis, fechaRevacunaLeptospirosis);
+            addVaccineDataToMap(map, "vacuna_rabia", cbRabiaPerro, fechaVacunaRabiaPerro);
+            addVaccineDataToMap(map, "vacuna_parvovirus", cbParvovirus, fechaVacunaParvovirus);
+            addVaccineDataToMap(map, "vacuna_moquillo", cbMoquillo, fechaVacunaMoquillo);
+            addVaccineDataToMap(map, "vacuna_hepatitis", cbHepatitis, fechaVacunaHepatitis);
+            addVaccineDataToMap(map, "vacuna_leptospirosis", cbLeptospirosis, fechaVacunaLeptospirosis);
         } else if ("Gato".equals(tipoMascotapet)) {
-            addVaccineDataToMap(map, "vacuna_trivalente", cbTrivalente, fechaRevacunaTrivalente);
-            addVaccineDataToMap(map, "vacuna_leucemia", cbLeucemia, fechaRevacunaLeucemia);
-            addVaccineDataToMap(map, "vacuna_rabia_gato", cbRabiaGato, fechaRevacunaRabiaGato);
+            addVaccineDataToMap(map, "vacuna_trivalente", cbTrivalente, fechaVacunaTrivalente);
+            addVaccineDataToMap(map, "vacuna_leucemia", cbLeucemia, fechaVacunaLeucemia);
+            addVaccineDataToMap(map, "vacuna_rabia_gato", cbRabiaGato, fechaVacunaRabiaGato);
         }
 
         postPet(map);

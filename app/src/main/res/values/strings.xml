@@ -3,5 +3,5 @@
     <string name="profile_image_description">Imagen de perfil del usuario</string>
     <string name="no_user_name">Sin nombre de usuario</string>
     <string name="date_format_hint">Fecha (dd/mm/yyyy)</string>
-    <string name="revaccination_label">Revacunación</string>
+    <string name="vaccination_label">Vacunación</string>
 </resources>

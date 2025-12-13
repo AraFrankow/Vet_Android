@@ -33,7 +33,7 @@ public class PetDetailFragment extends Fragment {
 
     private static final String ARG_PET_ID = "pet_id";
 
-    private TextView nombreDetail, infoBasicaDetail, antiparasitarioDetail, antipulgasDetail;
+    private TextView nombreDetail, infoBasicaDetail, antiparasitarioDetail, antipulgasDetail, antiparasitarioUso, antipulgasUso;
     private LinearLayout vacunasContainer;
     private Button btnVolver;
     private FirebaseFirestore mFirestore;
@@ -79,6 +79,8 @@ public class PetDetailFragment extends Fragment {
         vacunasContainer = view.findViewById(R.id.vacunas_container_detail);
         antiparasitarioDetail = view.findViewById(R.id.antiparasitario_detail);
         antipulgasDetail = view.findViewById(R.id.antipulgas_detail);
+        antiparasitarioUso = view.findViewById(R.id.antiparasitario_uso);
+        antipulgasUso = view.findViewById(R.id.antipulgas_uso);
         btnVolver = view.findViewById(R.id.btn_volver);
         progressBar = view.findViewById(R.id.progressBar_detail);
         contentScrollView = view.findViewById(R.id.content_scroll_view);
@@ -114,6 +116,9 @@ public class PetDetailFragment extends Fragment {
         String basicInfo = String.format(Locale.getDefault(),"%s, %s, %s años, %skg, %s",
                 pet.getTipoMascota(), pet.getRace(), pet.getAge(), pet.getWeight(), pet.getGenre());
         infoBasicaDetail.setText(basicInfo);
+
+        antiparasitarioUso.setText(String.format(Locale.getDefault(), "Última aplicación: %s", pet.getDateAntiparasitario()));
+        antipulgasUso.setText(String.format(Locale.getDefault(), "Última aplicación: %s", pet.getDateAntipulgas()));
     }
 
     private void populateVaccineInfo(String petType, DocumentSnapshot snapshot) {
@@ -127,19 +132,30 @@ public class PetDetailFragment extends Fragment {
 
             if (isApplied != null && isApplied) {
                 String revacunaDate = snapshot.getString(vaccineField + "_revacuna");
-                addVaccineTextView(vaccineName, revacunaDate);
+
+                TextView lastDateTextView = new TextView(getContext());
+                lastDateTextView.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+                lastDateTextView.setText(String.format(Locale.getDefault(), "Última %s: %s", vaccineName, revacunaDate));
+                lastDateTextView.setTextSize(16f);
+                if(vacunasContainer.getChildCount() > 0) {
+                    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) lastDateTextView.getLayoutParams();
+                    params.setMargins(0, 16, 0, 0);
+                    lastDateTextView.setLayoutParams(params);
+                }
+                vacunasContainer.addView(lastDateTextView);
+
+                TextView countdownTextView = new TextView(getContext());
+                countdownTextView.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+                countdownTextView.setTextSize(16f);
+                vacunasContainer.addView(countdownTextView);
+
+                calculateRevaccinationCountdown(countdownTextView, "Próximo " + vaccineName, revacunaDate);
             }
         }
-    }
-
-    private void addVaccineTextView(String vaccineName, String date) {
-        TextView textView = new TextView(getContext());
-        textView.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        textView.setText(String.format(Locale.getDefault()," • %s - Próxima dosis: %s", vaccineName, (date != null && !date.isEmpty() ? date : "N/A")));
-        textView.setTextSize(16f);
-        vacunasContainer.addView(textView);
     }
 
     private void calculateNextTreatmentDates(Pet pet) {
@@ -147,7 +163,7 @@ public class PetDetailFragment extends Fragment {
         final int diasParaAntipulgasPerro = 30;
         final int diasParaAntipulgasGato = 120;
 
-        calculateCountdown(antiparasitarioDetail, "Próximo antiparasitario en:", pet.getDateAntiparasitario(), diasParaAntiparasitario);
+        calculateCountdown(antiparasitarioDetail, "Próximo antiparasitario:", pet.getDateAntiparasitario(), diasParaAntiparasitario);
 
         int diasParaAntipulgas;
         if ("Perro".equals(pet.getTipoMascota())) {
@@ -156,7 +172,7 @@ public class PetDetailFragment extends Fragment {
             diasParaAntipulgas = diasParaAntipulgasGato;
         }
 
-        calculateCountdown(antipulgasDetail, "Próximo antipulgas en:", pet.getDateAntipulgas(), diasParaAntipulgas);
+        calculateCountdown(antipulgasDetail, "Próximo antipulgas:", pet.getDateAntipulgas(), diasParaAntipulgas);
     }
 
     private void calculateCountdown(TextView textView, String prefix, String lastDateStr, int daysToAdd) {
@@ -175,19 +191,70 @@ public class PetDetailFragment extends Fragment {
             calendar.add(Calendar.DAY_OF_YEAR, daysToAdd);
             Date nextDate = calendar.getTime();
 
-            Date today = new Date();
+            calculateCountdownToDate(textView, prefix, formatter.format(nextDate));
+
+        } catch (ParseException e) {
+            textView.setText(prefix + " (fecha inválida)");
+        }
+    }
+
+    private void calculateRevaccinationCountdown(TextView textView, String prefix, String lastDateStr) {
+        if (lastDateStr == null || lastDateStr.isEmpty()) {
+            textView.setText(prefix + ": (no hay fecha registrada)");
+            return;
+        }
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        try {
+            Date lastDate = formatter.parse(lastDateStr);
+            Calendar calendar = Calendar.getInstance();
+            if (lastDate != null) {
+                calendar.setTime(lastDate);
+            }
+            calendar.add(Calendar.YEAR, 1);
+            Date nextDate = calendar.getTime();
+
+            calculateCountdownToDate(textView, prefix, formatter.format(nextDate));
+
+        } catch (ParseException e) {
+            textView.setText(prefix + " (fecha inválida)");
+        }
+    }
+
+
+    private void calculateCountdownToDate(TextView textView, String prefix, String futureDateStr) {
+        if (futureDateStr == null || futureDateStr.isEmpty()) {
+            textView.setText(prefix + ": (no hay fecha registrada)");
+            return;
+        }
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        try {
+            Date nextDate = formatter.parse(futureDateStr);
+
+            Calendar calToday = Calendar.getInstance();
+            calToday.set(Calendar.HOUR_OF_DAY, 0);
+            calToday.set(Calendar.MINUTE, 0);
+            calToday.set(Calendar.SECOND, 0);
+            calToday.set(Calendar.MILLISECOND, 0);
+            Date today = calToday.getTime();
+
             long diffInMillis = nextDate.getTime() - today.getTime();
-            long daysRemaining = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
+            long daysRemaining = TimeUnit.MILLISECONDS.toDays(diffInMillis);
 
             textView.setTextColor(ContextCompat.getColor(getContext(), android.R.color.black)); // Reset color
             if (daysRemaining > 0) {
-                textView.setText(String.format(Locale.getDefault(),"%s %d días", prefix, daysRemaining));
-            } else {
+                textView.setText(String.format(Locale.getDefault(), "%s en %d días", prefix, daysRemaining));
+            } else if (daysRemaining == 0) {
                 textView.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
-                textView.setText(prefix + " ¡Vencido!");
+                textView.setText(prefix + " ¡Vence hoy!");
+            } else {
+                long daysExpired = -daysRemaining;
+                textView.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+                textView.setText(String.format(Locale.getDefault(), "%s vencido hace %d días", prefix, daysExpired));
             }
         } catch (ParseException e) {
-            textView.setText(prefix + " (fecha inválida)");
+            textView.setText(prefix + ": (fecha inválida)");
         }
     }
 
