@@ -57,6 +57,38 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="Raza">
+
+                <AutoCompleteTextView
+                    android:id="@+id/raza_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_otra_raza_edit"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:visibility="gone"
+                android:hint="Especificar otra raza"
+                tools:visibility="visible">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/otra_raza_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -81,7 +113,7 @@
                     android:id="@+id/peso"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -93,12 +125,11 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/genero"
-                    android:enabled="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Vacunas de PERRO -->
+            <!-- Contenedor para vacunas de PERRO -->
             <LinearLayout
                 android:id="@+id/vacunas_perro_container_edit"
                 android:layout_width="match_parent"
@@ -144,14 +175,14 @@
                     <CheckBox android:id="@+id/cb_hepatitis_edit" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Hepatitis"/>
                     <com.google.android.material.textfield.TextInputLayout android:id="@+id/layout_revacuna_hepatitis_edit" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="180dp" android:layout_height="wrap_content" android:visibility="gone" android:hint="@string/date_format_hint"><com.google.android.material.textfield.TextInputEditText android:id="@+id/fecha_revacuna_hepatitis_edit" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="date"/></com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
                     <CheckBox android:id="@+id/cb_leptospirosis_edit" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Leptospirosis"/>
                     <com.google.android.material.textfield.TextInputLayout android:id="@+id/layout_revacuna_leptospirosis_edit" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="180dp" android:layout_height="wrap_content" android:visibility="gone" android:hint="@string/date_format_hint"><com.google.android.material.textfield.TextInputEditText android:id="@+id/fecha_revacuna_leptospirosis_edit" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="date"/></com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
             </LinearLayout>
 
-            <!-- Vacunas de GATO -->
+            <!-- Contenedor para vacunas de GATO -->
             <LinearLayout
                 android:id="@+id/vacunas_gato_container_edit"
                 android:layout_width="match_parent"
@@ -258,4 +289,14 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressBar_edit"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:indeterminateDrawable="@drawable/progress_green"
+        android:visibility="gone" />
+
 </FrameLayout>

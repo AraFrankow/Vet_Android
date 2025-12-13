@@ -26,8 +26,9 @@ import java.util.Map;
 public class MascotaActivity extends AppCompatActivity {
 
     private Button btn_agregar;
-    private TextInputEditText name, age, weight, fechaAntiparasitario, fechaAntipulgas;
-    private AutoCompleteTextView tipoMascota, genre;
+    private TextInputEditText name, age, weight, fechaAntiparasitario, fechaAntipulgas, otraRaza;
+    private AutoCompleteTextView tipoMascota, genre, race;
+    private TextInputLayout layoutOtraRaza;
     private LinearLayout vacunasPerroContainer, vacunasGatoContainer;
     private TextView labelRevacunaPerro, labelRevacunaGato;
 
@@ -67,6 +68,9 @@ public class MascotaActivity extends AppCompatActivity {
         tipoMascota = findViewById(R.id.tipoMascota);
         age = findViewById(R.id.edad);
         genre = findViewById(R.id.genero);
+        race = findViewById(R.id.raza);
+        layoutOtraRaza = findViewById(R.id.layout_otra_raza);
+        otraRaza = findViewById(R.id.otra_raza);
         weight = findViewById(R.id.peso);
         fechaAntiparasitario = findViewById(R.id.fechaAntiparasitario);
         fechaAntipulgas = findViewById(R.id.fechaAntipulgas);
@@ -138,14 +142,35 @@ public class MascotaActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, petTypes);
         tipoMascota.setAdapter(adapter);
 
+        String[] dogRaces = new String[]{"Border Collie", "Labrador", "Braco", "Bulldog", "Caniche", "Chihuahua", "Cocker", "Golden Retriever", "Schnauzer", "Galgo", "Otro"};
+        String[] catRaces = new String[]{"Siamés", "Persa", "Bengala", "Maine Coon", "Criollo", "Korat", "Otro"};
+
         tipoMascota.setOnItemClickListener((parent, view, position, id) -> {
             String selected = (String) parent.getItemAtPosition(position);
+            ArrayAdapter<String> raceAdapter;
             if ("Perro".equals(selected)) {
                 vacunasPerroContainer.setVisibility(View.VISIBLE);
                 vacunasGatoContainer.setVisibility(View.GONE);
+                raceAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, dogRaces);
             } else if ("Gato".equals(selected)) {
                 vacunasGatoContainer.setVisibility(View.VISIBLE);
                 vacunasPerroContainer.setVisibility(View.GONE);
+                raceAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, catRaces);
+            } else {
+                raceAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, new String[]{});
+            }
+            race.setAdapter(raceAdapter);
+            race.setText("", false);
+            layoutOtraRaza.setVisibility(View.GONE);
+        });
+
+        // Decir la otra raza del animal
+        race.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedRace = (String) parent.getItemAtPosition(position);
+            if ("Otro".equals(selectedRace)) {
+                layoutOtraRaza.setVisibility(View.VISIBLE);
+            } else {
+                layoutOtraRaza.setVisibility(View.GONE);
             }
         });
     }
@@ -208,13 +233,22 @@ public class MascotaActivity extends AppCompatActivity {
     private void collectAndPostData() {
         String namepet = name.getText().toString().trim();
         String tipoMascotapet = tipoMascota.getText().toString().trim();
+        String raceSelected = race.getText().toString().trim();
+        String racepet;
+
+        if ("Otro".equals(raceSelected)) {
+            racepet = otraRaza.getText().toString().trim();
+        } else {
+            racepet = raceSelected;
+        }
+
         String agepet = age.getText().toString().trim();
         String genrepet = genre.getText().toString().trim();
         String weightpet = weight.getText().toString().trim();
         String dateAntiparasitariopet = fechaAntiparasitario.getText().toString().trim();
         String dateAntipulgaspet = fechaAntipulgas.getText().toString().trim();
 
-        if (namepet.isEmpty() || tipoMascotapet.isEmpty() || agepet.isEmpty() || genrepet.isEmpty() || weightpet.isEmpty() || dateAntiparasitariopet.isEmpty() || dateAntipulgaspet.isEmpty()) {
+        if (namepet.isEmpty() || tipoMascotapet.isEmpty() || racepet.isEmpty() || agepet.isEmpty() || genrepet.isEmpty() || weightpet.isEmpty() || dateAntiparasitariopet.isEmpty() || dateAntipulgaspet.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Ingresar todos los datos básicos", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -222,6 +256,7 @@ public class MascotaActivity extends AppCompatActivity {
         Map<String, Object> map = new HashMap<>();
         map.put("name", namepet);
         map.put("tipoMascota", tipoMascotapet);
+        map.put("race", racepet);
         map.put("age", agepet);
         map.put("genre", genrepet);
         map.put("weight", weightpet);

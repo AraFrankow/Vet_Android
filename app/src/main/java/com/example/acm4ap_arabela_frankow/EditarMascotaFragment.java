@@ -4,9 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +22,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,10 +30,13 @@ public class EditarMascotaFragment extends Fragment {
 
     private static final String ARG_PET_ID = "pet_id";
 
-    private TextInputEditText nombre, tipoMascota, edad, peso, genero, fechaAntiparasitario, fechaAntipulgas;
+    private TextInputEditText nombre, tipoMascota, edad, peso, genero, fechaAntiparasitario, fechaAntipulgas, otraRaza;
+    private AutoCompleteTextView race;
+    private TextInputLayout layoutOtraRaza;
     private Button btnActualizar, btnCancelar;
     private FirebaseFirestore mFirestore;
     private String petId;
+    private ProgressBar progressBar;
 
     private LinearLayout vacunasPerroContainer, vacunasGatoContainer;
     private TextView labelRevacunaPerro, labelRevacunaGato;
@@ -87,12 +94,16 @@ public class EditarMascotaFragment extends Fragment {
         nombre = view.findViewById(R.id.nombre);
         tipoMascota = view.findViewById(R.id.tipoMascota);
         edad = view.findViewById(R.id.edad);
+        race = view.findViewById(R.id.raza_edit);
+        layoutOtraRaza = view.findViewById(R.id.layout_otra_raza_edit);
+        otraRaza = view.findViewById(R.id.otra_raza_edit);
         peso = view.findViewById(R.id.peso);
         genero = view.findViewById(R.id.genero);
         fechaAntiparasitario = view.findViewById(R.id.fechaAntiparasitario);
         fechaAntipulgas = view.findViewById(R.id.fechaAntipulgas);
         btnActualizar = view.findViewById(R.id.btn_actualizar);
         btnCancelar = view.findViewById(R.id.btn_cancelar);
+        progressBar = view.findViewById(R.id.progressBar_edit);
 
         vacunasPerroContainer = view.findViewById(R.id.vacunas_perro_container_edit);
         vacunasGatoContainer = view.findViewById(R.id.vacunas_gato_container_edit);
@@ -129,6 +140,15 @@ public class EditarMascotaFragment extends Fragment {
     }
 
     private void setupListeners() {
+        race.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedRace = (String) parent.getItemAtPosition(position);
+            if ("Otro".equals(selectedRace)) {
+                layoutOtraRaza.setVisibility(View.VISIBLE);
+            } else {
+                layoutOtraRaza.setVisibility(View.GONE);
+            }
+        });
+
         // Listeners para perros
         cbRabiaPerro.setOnCheckedChangeListener((buttonView, isChecked) -> {
             layoutRevacunaRabiaPerro.setVisibility(isChecked ? View.VISIBLE : View.GONE);
@@ -180,6 +200,24 @@ public class EditarMascotaFragment extends Fragment {
                         fechaAntiparasitario.setText(pet.getDateAntiparasitario());
                         fechaAntipulgas.setText(pet.getDateAntipulgas());
 
+                        String[] races;
+                        if ("Perro".equals(pet.getTipoMascota())) {
+                            races = new String[]{"Border Collie", "Labrador", "Braco", "Bulldog", "Caniche", "Chihuahua", "Cocker", "Golden Retriever", "Schnauzer", "Galgo", "Otro"};
+                        } else {
+                            races = new String[]{"Siamés", "Persa", "Bengala", "Maine Coon", "Criollo", "Korat", "Otro"};
+                        }
+                        ArrayAdapter<String> raceAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, races);
+                        race.setAdapter(raceAdapter);
+
+                        // Decir la otra raza del animal
+                        if (Arrays.asList(races).contains(pet.getRace())) {
+                            race.setText(pet.getRace(), false);
+                        } else {
+                            race.setText("Otro", false);
+                            layoutOtraRaza.setVisibility(View.VISIBLE);
+                            otraRaza.setText(pet.getRace());
+                        }
+
                         if ("Perro".equals(pet.getTipoMascota())) {
                             vacunasPerroContainer.setVisibility(View.VISIBLE);
                             loadVaccineState(cbRabiaPerro, fechaRevacunaRabiaPerro, documentSnapshot, "vacuna_rabia");
@@ -210,6 +248,7 @@ public class EditarMascotaFragment extends Fragment {
     }
 
     private void updatePet() {
+        progressBar.setVisibility(View.VISIBLE);
         Map<String, Object> map = new HashMap<>();
         map.put("name", nombre.getText().toString());
         map.put("age", edad.getText().toString());
@@ -217,6 +256,15 @@ public class EditarMascotaFragment extends Fragment {
         map.put("genre", genero.getText().toString());
         map.put("dateAntiparasitario", fechaAntiparasitario.getText().toString());
         map.put("dateAntipulgas", fechaAntipulgas.getText().toString());
+
+        String raceSelected = race.getText().toString().trim();
+        String finalRace;
+        if ("Otro".equals(raceSelected)) {
+            finalRace = otraRaza.getText().toString().trim();
+        } else {
+            finalRace = raceSelected;
+        }
+        map.put("race", finalRace);
 
         String petType = tipoMascota.getText().toString();
         if ("Perro".equals(petType)) {
@@ -233,10 +281,14 @@ public class EditarMascotaFragment extends Fragment {
 
         mFirestore.collection("pet").document(petId).update(map)
                 .addOnSuccessListener(aVoid -> {
+                    progressBar.setVisibility(View.GONE);
                     Toast.makeText(getContext(), "Mascota actualizada", Toast.LENGTH_SHORT).show();
                     getParentFragmentManager().popBackStack();
                 })
-                .addOnFailureListener(e -> Toast.makeText(getContext(), "Error al actualizar", Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), "Error al actualizar", Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void addVaccineDataToMap(Map<String, Object> map, String vaccineName, CheckBox checkBox, TextInputEditText dateInput) {

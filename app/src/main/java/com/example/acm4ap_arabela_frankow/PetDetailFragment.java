@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +38,8 @@ public class PetDetailFragment extends Fragment {
     private Button btnVolver;
     private FirebaseFirestore mFirestore;
     private String petId;
+    private ProgressBar progressBar;
+    private ScrollView contentScrollView;
 
     public static PetDetailFragment newInstance(String petId) {
         PetDetailFragment fragment = new PetDetailFragment();
@@ -76,10 +80,14 @@ public class PetDetailFragment extends Fragment {
         antiparasitarioDetail = view.findViewById(R.id.antiparasitario_detail);
         antipulgasDetail = view.findViewById(R.id.antipulgas_detail);
         btnVolver = view.findViewById(R.id.btn_volver);
+        progressBar = view.findViewById(R.id.progressBar_detail);
+        contentScrollView = view.findViewById(R.id.content_scroll_view);
     }
 
     private void loadPetDetails() {
         if (petId == null) return;
+        progressBar.setVisibility(View.VISIBLE);
+        contentScrollView.setVisibility(View.INVISIBLE);
 
         mFirestore.collection("pet").document(petId).get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
@@ -88,19 +96,23 @@ public class PetDetailFragment extends Fragment {
                     populateBasicInfo(pet);
                     populateVaccineInfo(pet.getTipoMascota(), documentSnapshot);
                     calculateNextTreatmentDates(pet);
+                    progressBar.setVisibility(View.GONE);
+                    contentScrollView.setVisibility(View.VISIBLE);
                 }
             } else {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "Mascota no encontrada", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(e -> {
+            progressBar.setVisibility(View.GONE);
             Toast.makeText(getContext(), "Error al cargar datos", Toast.LENGTH_SHORT).show();
         });
     }
 
     private void populateBasicInfo(Pet pet) {
         nombreDetail.setText(pet.getName());
-        String basicInfo = String.format(Locale.getDefault(),"%s, %s años, %skg, %s",
-                pet.getTipoMascota(), pet.getAge(), pet.getWeight(), pet.getGenre());
+        String basicInfo = String.format(Locale.getDefault(),"%s, %s, %s años, %skg, %s",
+                pet.getTipoMascota(), pet.getRace(), pet.getAge(), pet.getWeight(), pet.getGenre());
         infoBasicaDetail.setText(basicInfo);
     }
 

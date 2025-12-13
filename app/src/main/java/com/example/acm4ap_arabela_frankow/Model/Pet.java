@@ -4,7 +4,7 @@ import com.google.firebase.firestore.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
 public class Pet {
-    private String name, tipoMascota, age, weight, genre, dateAntiparasitario, dateAntipulgas;
+    private String name, tipoMascota, age, weight, genre, race, dateAntiparasitario, dateAntipulgas;
 
     // Dog vaccines
     private boolean vacuna_rabia;
@@ -68,6 +68,14 @@ public class Pet {
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+    public String getRace() {
+        return race;
+    }
+
+    public void setRace(String race) {
+        this.race = race;
     }
 
     public String getDateAntiparasitario() {
