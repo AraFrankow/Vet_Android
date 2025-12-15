@@ -248,7 +248,41 @@ public class EditarMascotaFragment extends Fragment {
     }
 
     private void updatePet() {
-        progressBar.setVisibility(View.VISIBLE);
+        if (nombre.getText().toString().isEmpty() || tipoMascota.getText().toString().isEmpty() || race.getText().toString().trim().isEmpty() || edad.getText().toString().isEmpty() || genero.getText().toString().isEmpty() || peso.getText().toString().isEmpty() || fechaAntiparasitario.getText().toString().isEmpty() || fechaAntipulgas.getText().toString().isEmpty()) {
+            Toast.makeText(getContext(), "Ingresar todos los datos básicos", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        int ageVal;
+        double weightVal;
+
+        try {
+            ageVal = Integer.parseInt(edad.getText().toString());
+            weightVal = Double.parseDouble(peso.getText().toString());
+        } catch (NumberFormatException e) {
+            Toast.makeText(getContext(), "La edad y el peso deben ser números válidos.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if ("Perro".equals(tipoMascota.getText().toString())) {
+            if (ageVal > 30) {
+                Toast.makeText(getContext(), "La edad no puede ser mayor a 30 años", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (weightVal > 100) {
+                Toast.makeText(getContext(), "El peso no puede ser mayor a 100 kg", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        } else if ("Gato".equals(tipoMascota.getText().toString())) {
+            if (ageVal > 30) {
+                Toast.makeText(getContext(), "La edad no puede ser mayor a 30 años", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (weightVal > 50) {
+                Toast.makeText(getContext(), "El peso no puede ser mayor a 50 kg", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
         Map<String, Object> map = new HashMap<>();
         map.put("name", nombre.getText().toString());
         map.put("age", edad.getText().toString());
@@ -265,8 +299,8 @@ public class EditarMascotaFragment extends Fragment {
             finalRace = raceSelected;
         }
         map.put("race", finalRace);
-
         String petType = tipoMascota.getText().toString();
+
         if ("Perro".equals(petType)) {
             addVaccineDataToMap(map, "vacuna_rabia", cbRabiaPerro, fechaRevacunaRabiaPerro);
             addVaccineDataToMap(map, "vacuna_parvovirus", cbParvovirus, fechaRevacunaParvovirus);
@@ -279,6 +313,7 @@ public class EditarMascotaFragment extends Fragment {
             addVaccineDataToMap(map, "vacuna_rabia_gato", cbRabiaGato, fechaRevacunaRabiaGato);
         }
 
+        progressBar.setVisibility(View.VISIBLE);
         mFirestore.collection("pet").document(petId).update(map)
                 .addOnSuccessListener(aVoid -> {
                     progressBar.setVisibility(View.GONE);
