@@ -244,6 +244,7 @@ public class PetDetailFragment extends Fragment {
 
             textView.setTextColor(ContextCompat.getColor(getContext(), android.R.color.black)); // Reset color
             if (daysRemaining > 0) {
+                textView.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
                 textView.setText(String.format(Locale.getDefault(), "%s en %d días", prefix, daysRemaining));
             } else if (daysRemaining == 0) {
                 textView.setTextColor(ContextCompat.getColor(getContext(), R.color.red));

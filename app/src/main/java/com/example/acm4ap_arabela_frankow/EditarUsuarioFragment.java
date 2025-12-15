@@ -71,7 +71,7 @@ public class EditarUsuarioFragment extends Fragment {
 
     private void loadUserData() {
         if (currentUser != null) {
-            mFirestore.collection("users").document(currentUser.getUid()).get().addOnSuccessListener(documentSnapshot -> {
+            mFirestore.collection("user").document(currentUser.getUid()).get().addOnSuccessListener(documentSnapshot -> {
                 if (documentSnapshot.exists()) {
                     String name = documentSnapshot.getString("name");
                     editName.setText(name);
@@ -138,7 +138,7 @@ public class EditarUsuarioFragment extends Fragment {
         Map<String, Object> nameMap = new HashMap<>();
         nameMap.put("name", newName);
 
-        mFirestore.collection("users").document(currentUser.getUid())
+        mFirestore.collection("user").document(currentUser.getUid())
                 .set(nameMap, SetOptions.merge())
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(getContext(), "Nombre actualizado con éxito", Toast.LENGTH_SHORT).show();

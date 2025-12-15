@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -60,6 +61,16 @@ public class MascotaActivity extends AppCompatActivity {
         mfirestore = FirebaseFirestore.getInstance();
 
         btn_agregar.setOnClickListener(v -> collectAndPostData());
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(MascotaActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private void setupViews() {
@@ -305,17 +316,8 @@ public class MascotaActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(MascotaActivity.this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        finish();
-    }
-
-    @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
+        getOnBackPressedDispatcher().onBackPressed();
         return true;
     }
 }
