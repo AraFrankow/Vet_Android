@@ -307,27 +307,37 @@ public class MascotaActivity extends AppCompatActivity {
         map.put("dateAntipulgas", dateAntipulgaspet);
 
         if ("Perro".equals(tipoMascotapet)) {
-            addVaccineDataToMap(map, "vacuna_rabia", cbRabiaPerro, fechaVacunaRabiaPerro);
-            addVaccineDataToMap(map, "vacuna_parvovirus", cbParvovirus, fechaVacunaParvovirus);
-            addVaccineDataToMap(map, "vacuna_moquillo", cbMoquillo, fechaVacunaMoquillo);
-            addVaccineDataToMap(map, "vacuna_hepatitis", cbHepatitis, fechaVacunaHepatitis);
-            addVaccineDataToMap(map, "vacuna_leptospirosis", cbLeptospirosis, fechaVacunaLeptospirosis);
+            if (!addVaccineDataToMap(map, "vacuna_rabia", cbRabiaPerro, fechaVacunaRabiaPerro) ||
+                !addVaccineDataToMap(map, "vacuna_parvovirus", cbParvovirus, fechaVacunaParvovirus) ||
+                !addVaccineDataToMap(map, "vacuna_moquillo", cbMoquillo, fechaVacunaMoquillo) ||
+                !addVaccineDataToMap(map, "vacuna_hepatitis", cbHepatitis, fechaVacunaHepatitis) ||
+                !addVaccineDataToMap(map, "vacuna_leptospirosis", cbLeptospirosis, fechaVacunaLeptospirosis)) {
+                return; // Stop processing
+            }
         } else if ("Gato".equals(tipoMascotapet)) {
-            addVaccineDataToMap(map, "vacuna_trivalente", cbTrivalente, fechaVacunaTrivalente);
-            addVaccineDataToMap(map, "vacuna_leucemia", cbLeucemia, fechaVacunaLeucemia);
-            addVaccineDataToMap(map, "vacuna_rabia_gato", cbRabiaGato, fechaVacunaRabiaGato);
+            if (!addVaccineDataToMap(map, "vacuna_trivalente", cbTrivalente, fechaVacunaTrivalente) ||
+                !addVaccineDataToMap(map, "vacuna_leucemia", cbLeucemia, fechaVacunaLeucemia) ||
+                !addVaccineDataToMap(map, "vacuna_rabia_gato", cbRabiaGato, fechaVacunaRabiaGato)) {
+                return; // Stop processing
+            }
         }
 
         postPet(map);
     }
 
-    private void addVaccineDataToMap(Map<String, Object> map, String vaccineName, CheckBox checkBox, TextInputEditText dateInput) {
+    private boolean addVaccineDataToMap(Map<String, Object> map, String vaccineName, CheckBox checkBox, TextInputEditText dateInput) {
         map.put(vaccineName, checkBox.isChecked());
+        String date = dateInput.getText().toString().trim();
         if (checkBox.isChecked()) {
-            map.put(vaccineName + "_revacuna", dateInput.getText().toString().trim());
+            if (date.isEmpty()) {
+                Toast.makeText(this, "Ingrese la fecha de la vacuna " + vaccineName.replace("vacuna_", ""), Toast.LENGTH_SHORT).show();
+                return false; // Validation failed
+            }
+            map.put(vaccineName + "_revacuna", date);
         } else {
             map.put(vaccineName + "_revacuna", null);
         }
+        return true; // Validation succeeded
     }
 
     private void postPet(Map<String, Object> map) {
