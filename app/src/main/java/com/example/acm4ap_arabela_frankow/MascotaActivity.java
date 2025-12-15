@@ -242,7 +242,6 @@ public class MascotaActivity extends AppCompatActivity {
         labelVacunaGato.setVisibility(anyCheckboxChecked ? View.VISIBLE : View.GONE);
     }
 
-
     private void collectAndPostData() {
         String namepet = name.getText().toString().trim();
         String tipoMascotapet = tipoMascota.getText().toString().trim();
@@ -255,24 +254,55 @@ public class MascotaActivity extends AppCompatActivity {
             racepet = raceSelected;
         }
 
-        String agepet = age.getText().toString().trim();
+        String agepetStr = age.getText().toString().trim();
+        String weightpetStr = weight.getText().toString().trim();
         String genrepet = genre.getText().toString().trim();
-        String weightpet = weight.getText().toString().trim();
         String dateAntiparasitariopet = fechaAntiparasitario.getText().toString().trim();
         String dateAntipulgaspet = fechaAntipulgas.getText().toString().trim();
 
-        if (namepet.isEmpty() || tipoMascotapet.isEmpty() || racepet.isEmpty() || agepet.isEmpty() || genrepet.isEmpty() || weightpet.isEmpty() || dateAntiparasitariopet.isEmpty() || dateAntipulgaspet.isEmpty()) {
+        if (namepet.isEmpty() || tipoMascotapet.isEmpty() || racepet.isEmpty() || agepetStr.isEmpty() || genrepet.isEmpty() || weightpetStr.isEmpty() || dateAntiparasitariopet.isEmpty() || dateAntipulgaspet.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Ingresar todos los datos básicos", Toast.LENGTH_SHORT).show();
             return;
+        }
+
+        int ageVal;
+        double weightVal;
+
+        try {
+            ageVal = Integer.parseInt(agepetStr);
+            weightVal = Double.parseDouble(weightpetStr);
+        } catch (NumberFormatException e) {
+            Toast.makeText(getApplicationContext(), "La edad y el peso deben ser números válidos.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if ("Perro".equals(tipoMascotapet)) {
+            if (ageVal > 30) {
+                Toast.makeText(getApplicationContext(), "La edad no puede ser mayor a 30 años", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (weightVal > 100) {
+                Toast.makeText(getApplicationContext(), "El peso no puede ser mayor a 100 kg", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        } else if ("Gato".equals(tipoMascotapet)) {
+            if (ageVal > 30) {
+                Toast.makeText(getApplicationContext(), "La edad no puede ser mayor a 30 años", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (weightVal > 50) {
+                Toast.makeText(getApplicationContext(), "El peso no puede ser mayor a 50 kg", Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
 
         Map<String, Object> map = new HashMap<>();
         map.put("name", namepet);
         map.put("tipoMascota", tipoMascotapet);
         map.put("race", racepet);
-        map.put("age", agepet);
+        map.put("age", agepetStr);
         map.put("genre", genrepet);
-        map.put("weight", weightpet);
+        map.put("weight", weightpetStr);
         map.put("dateAntiparasitario", dateAntiparasitariopet);
         map.put("dateAntipulgas", dateAntipulgaspet);
 
